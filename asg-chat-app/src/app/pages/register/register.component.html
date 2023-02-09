@@ -11,38 +11,35 @@
     
                   <h4 class="fw-bold mb-2 text-uppercase">Registration</h4>
                   <p class="text-white-50 mb-5">Fill up the form</p>
-    
-                  <div class="form-outline form-white mb-4">
-                    <input placeholder="Email Address" type="email" id="typeEmailX" class="form-control form-control-lg" required/>
+                  <form [formGroup]="form" (ngSubmit)="register()">  
+                  <div class="form-outline form-white mb-4 form-group">
+                    <input formControlName="email" placeholder="Email Address" type="email" id="typeEmailX" class="form-control form-control-lg" required/>
                     <label class="form-label" for="typeEmailX">Email</label>
                   </div>
 
                   <div class="form-outline form-white mb-4">
-                    <input placeholder="First Name" type="email" id="firstName" class="form-control form-control-lg" required/>
+                    <input formControlName="firstName"  placeholder="First Name" type="text" id="firstName" class="form-control form-control-lg" required/>
                     <label class="form-label" for="firstName">First Name</label>
                   </div>
 
                   <div class="form-outline form-white mb-4">
-                    <input placeholder="Last Name" type="email" id="lastName" class="form-control form-control-lg" required/>
+                    <input formControlName="lastName"  placeholder="Last Name" type="text" id="lastName" class="form-control form-control-lg" required/>
                     <label class="form-label" for="lastName">Last Name</label>
                   </div>
     
                   <div class="form-outline form-white mb-4">
-                    <input placeholder="Password" type="password" id="password" class="form-control form-control-lg" required/>
+                    <input formControlName="password"  placeholder="Password" type="password" id="password" class="form-control form-control-lg" required/>
                     <label class="form-label" for="password">Password</label>
                   </div>
 
                   <div class="form-outline form-white mb-4">
-                    <input placeholder="Confirm Password" type="password" id="confirmPassword" class="form-control form-control-lg" required/>
+                    <input formControlName="confirmPassword"  placeholder="Confirm Password" type="password" id="confirmPassword" class="form-control form-control-lg" required/>
                     <label class="form-label" for="confirmPassword">Confrim Password</label>
                   </div>
-    
-    
-                  <button class="btn btn-outline-light btn-lg px-5" type="submit">Register</button>
-    
-    
+                </form>
+                  <button class="btn btn-outline-light btn-lg px-5" type="submit" (click)="register()">Register</button>
                 </div>
-    
+                <button (click)="goto()">goto</button>
               </div>
             </div>
           </div>

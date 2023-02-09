@@ -16,12 +16,18 @@ export class CrudService {
   // Http Header
   httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
   constructor(private httpClient: HttpClient) {}
+
+  Login(data: User):Observable<any>{
+    let API_URL = `${this.REST_API}/login`;
+    return this.httpClient
+      .post(API_URL, data);
+  }
+
   // Add
   AddUser(data: User): Observable<any> {
     let API_URL = `${this.REST_API}/add-user`;
     return this.httpClient
-      .post(API_URL, data)
-      .pipe(catchError(this.handleError));
+      .post(API_URL, data);
   }
   // Get all objects
   GetUsers() {

@@ -14,7 +14,7 @@ mongoose
   .catch((err) => {
     console.error('Error connecting to mongo', err.reason)
   })
-const userRoute = require('./routes/user.routes')
+const userRoute = require('././routes/user-routes')
 const app = express()
 app.use(bodyParser.json())
 app.use(

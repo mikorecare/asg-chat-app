@@ -2,22 +2,42 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const variables = require("../variables.ts") 
+const variables = require('../variable.ts')
  const dateOptions1 = variables.dateOptions;
  const emailRegex1 = variables.emailRegex;
-const userSchema = new Schema(
-    {
-      email: {
-        match: emailRegex1,
-        required: true,
-        type: String,
-        unique: true,
-      },
-      firstName: String,
-      lastName: String,
-      password: { type: String, required: true, select: false },
+ let users = new Schema({
+    username: {
+      required: true,  
+      type: String,
+      unique: true
     },
-    dateOptions1
-  );
+    firstName: {
+        required: true,
+      type: String
+    },
+    lastName: {
+        required: true,
+      type: String
+    },
+    password: {
+        required: true,
+        type: String
+      }
+  }, {
+    collection: 'users'
+  })
+// const userSchema = new Schema(
+//     {
+//       email: {
+//         match: emailRegex1,
+//         type: String,
+//         unique: true,
+//       },
+//       firstName: String,
+//       lastName: String,
+//       password: { type: String, select: false },
+//     },
+//     dateOptions1
+//   );
   
-  module.exports = mongoose.model("users", userSchema);
+  module.exports = mongoose.model("users", users);

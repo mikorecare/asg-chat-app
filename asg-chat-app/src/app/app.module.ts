@@ -8,14 +8,14 @@ import { RegisterComponent } from './pages/register/register.component';
 import { DeleteProfileComponent } from './pages/delete-profile/delete-profile.component';
 import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
 import { LoginComponent } from './pages/login/login.component';
-
+import { ValidateService } from './pages/validate.service';
 @NgModule({
   declarations: [
     AppComponent,
-    RegisterComponent,
     EditProfileComponent,
     DeleteProfileComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
