@@ -45,7 +45,7 @@ export class RegisterComponent {
   }
 
   goto(){
-    this.router.navigate(['/edit-profile/63e4cfee9b4b8c4f3ae03cb4']);
+    this.router.navigate(['/edit-profile/']);
     
   }
 
@@ -53,8 +53,9 @@ register(){
   if(this.confirmPassword?.value != this.password?.value){
     alert("Passwords didn't match");
   }
-  console.log(this.form.value);
+  alert("Registration succesful!");
   this.crudservice.AddUser(this.form.value).subscribe();
+  this.goto();
 
 }
 }
