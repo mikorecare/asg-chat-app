@@ -5,6 +5,8 @@ const userRoute = express.Router();
 let User = require('../schemas/user.ts');
 const objectId = require('mongoose').objectId;
 const jwt = require('jsonwebtoken');
+const JWT_SAMPLE_TOKEN = 'Aybga8X4GO01iGKsqtyZ4cQfXaj0oCDHo-cqrWC4g1g';
+const atob = require('atob');
 
 userRoute.route('/login').post( async (req, res, next) =>  {
 
@@ -40,7 +42,7 @@ userRoute.route('/login').post( async (req, res, next) =>  {
                         email: data[0].email,
                         userId: data[0]._id,
                       },
-                      'Aybga8X4GO01iGKsqtyZ4cQfXaj0oCDHo-cqrWC4g1g',
+                      JWT_SAMPLE_TOKEN,
                       {
                         expiresIn: "30m",
                       }
@@ -57,6 +59,32 @@ userRoute.route('/login').post( async (req, res, next) =>  {
         });
       }
 });
+userRoute.route('/refresh/token').post((req,res,next)=>{
+    const { token } = req.body;
+    if (!token) {
+      return next({ status: 401, message: "`token` is required" });
+    }
+    try{
+        const test= token.split(".");
+       const email = atob(test[0]);
+       const userId = atob(test[1]);
+        if (email && userId) {
+              const  token = jwt.sign({ email, userId }, JWT_SAMPLE_TOKEN, {
+                  expiresIn: "30m",
+                })
+                res.json(token);
+            }
+           else {
+            return next({
+              status: 401,
+              message: "Malformed token. Cannot refresh token." + test[1],
+            });
+          }
+    }
+    catch(err){
+        console.log(err);
+    }
+})
 // register
 userRoute.route('/add-user').post((req, res, next) => {
     

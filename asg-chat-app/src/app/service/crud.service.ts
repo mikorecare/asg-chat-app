@@ -22,7 +22,10 @@ export class CrudService {
     return this.httpClient
       .post(API_URL, data);
   }
-
+  RefreshToken(authToken:any):Observable<any>{
+    let API_URL = `${this.REST_API}/refresh/token`;
+    return this.httpClient.post(API_URL, {token:authToken})
+  }
   // Add
   AddUser(data: User): Observable<any> {
     let API_URL = `${this.REST_API}/add-user`;
