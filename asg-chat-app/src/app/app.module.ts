@@ -9,6 +9,8 @@ import { DeleteProfileComponent } from './pages/delete-profile/delete-profile.co
 import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ValidateService } from './pages/validate.service';
+import { Global } from './service/global';
+
 @NgModule({
   declarations: [
     AppComponent,

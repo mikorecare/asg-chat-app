@@ -4,6 +4,7 @@ const app = express();
 const userRoute = express.Router();
 let User = require('../schemas/user.ts');
 const objectId = require('mongoose').objectId;
+const jwt = require('jsonwebtoken');
 
 userRoute.route('/login').post( async (req, res, next) =>  {
 
@@ -33,7 +34,24 @@ userRoute.route('/login').post( async (req, res, next) =>  {
                   res.send(null); 
               }
               else{
-                res.json(data);
+                try {
+                    const token = jwt.sign(
+                      {
+                        email: data[0].email,
+                        userId: data[0]._id,
+                      },
+                      'Aybga8X4GO01iGKsqtyZ4cQfXaj0oCDHo-cqrWC4g1g',
+                      {
+                        expiresIn: "30m",
+                      }
+                    );
+                  
+                      res.json({ user: data[0], token });
+                  
+                    
+                  } catch (ex) {
+                    console.log(ex, "login() error");
+                  }
               }
           }
         });
