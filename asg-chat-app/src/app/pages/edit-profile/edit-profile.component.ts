@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewChecked } from '@angular/core';
 import { CrudService } from './../../service/crud.service';
 import { Global } from 'src/app/service/global';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/services/authservice';
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class EditProfileComponent implements OnInit, AfterViewChecked {
   User:any = this.global.loginId;
-  constructor(private crudService: CrudService, public global: Global, public router: Router) { }
+  constructor(private crudService: CrudService, public global: Global, public router: Router, public auth: AuthService) { }
   ngOnInit(): void {    
 
   }

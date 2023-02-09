@@ -11,9 +11,7 @@ const routes: Routes = [
   { 
     path: 'login', 
     component: LoginComponent,
-    children: [
-     
-    ] 
+
 },
 {
   path: 'register', 
@@ -21,7 +19,7 @@ const routes: Routes = [
 },
   { path: 'edit-profile', component: EditProfileComponent, canActivate: [AuthGuard] },
   { path: 'delete-profile/:id', component: DeleteProfileComponent },
-  { path: '', pathMatch: 'full', redirectTo: 'login' },
+  { path: '', pathMatch: 'full', redirectTo: 'login', },
 ];
 
 @NgModule({

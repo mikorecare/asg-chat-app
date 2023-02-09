@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Validators, FormGroup, FormBuilder } from "@angular/forms";
 import { CrudService } from 'src/app/service/crud.service';
 import { Global } from 'src/app/service/global';
+import { AuthService } from 'src/services/authservice';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -12,6 +13,7 @@ export class LoginComponent implements OnInit {
   form : FormGroup;
   myData : [];
   constructor(
+    public auth: AuthService,
     public global: Global,
     public router: Router,
     public formBuilder: FormBuilder,
@@ -23,8 +25,8 @@ export class LoginComponent implements OnInit {
   })}
 
   ngOnInit(): void {
-    if(this.global.loginId != ""){
-      this.goto(`edit-profile/${this.global.loginId}`)
+    if(this.auth.getAuthStatus()){
+      this.router.navigate(['edit-profile'])
     }
   }
 
