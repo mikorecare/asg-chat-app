@@ -10,13 +10,18 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
+#Installation
+Clone the repository
+Create a mongodb database local or online and create a database then copy the URL link
+create a .env file and define declare MONGO_CONNECTION_URL=`Your URL here`
+Go to the file directory run npm install
+Change directory to /api-service directory run npm install
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-clone the repository
-Create a .env file and place your MONGO_CONNECTION_URL= Your_Url
-Create your own MongoDb database local or online and replace the connection URL
+#Usage:
+go to main directory folder and run npm start to start the front end.
+Open a new terminal then go to /api-service or run cd api-service on the terminal  then npm start 
+front-end will run on localhost:4200 while back-end will run on localhost:8000
+
+Still on-going....
