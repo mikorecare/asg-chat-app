@@ -7,19 +7,24 @@
             <div class="card bg-dark text-white" style="border-radius: 1rem;">
               <div class="card-body p-5 text-center">
                 <div class="mb-md-5 mt-md-4 pb-5">
-
+                    <button class="btn btn-outline-light btn-lg px-5 pull-right" (click)="change()">{{changeInfo?"Change Password":"Update Personal Info"}}</button>
                   <form [formGroup]="form" (ngSubmit)="update()">  
-                    <h1 class="title">Update Personal Info</h1>
-                  <div class="form-outline form-white mb-4">
-                    <input formControlName="firstName"  placeholder="First Name" type="text" id="firstName" class="form-control form-control-lg" required/>
-                    <label class="form-label" for="firstName">First Name</label>
-                  </div>
 
-                  <div class="form-outline form-white mb-4">
-                    <input formControlName="lastName"  placeholder="Last Name" type="text" id="lastName" class="form-control form-control-lg" required/>
-                    <label class="form-label" for="lastName">Last Name</label>
-                  </div>
-                  <h1 class="title">Change Password</h1>
+                    <ng-container *ngIf="changeInfo">
+                        <h1 class="title pull-left">Update Personal Info</h1>
+                        <div class="form-outline form-white mb-4">
+                          <input formControlName="firstName"  placeholder="First Name" type="text" id="firstName" class="form-control form-control-lg" required/>
+                          <label class="form-label" for="firstName">First Name</label>
+                        </div>
+      
+                        <div class="form-outline form-white mb-4">
+                          <input formControlName="lastName"  placeholder="Last Name" type="text" id="lastName" class="form-control form-control-lg" required/>
+                          <label class="form-label" for="lastName">Last Name</label>
+                        </div>
+                       </ng-container>
+
+                  <ng-container *ngIf="changePassword">
+                    <h1 class="title pull-left">Change Password</h1>
                   <div class="form-outline form-white mb-4">
                     <input formControlName="password"  placeholder="Password" type="password" id="password" class="form-control form-control-lg" required/>
                     <label class="form-label" for="password">Password</label>
@@ -29,8 +34,10 @@
                     <input formControlName="confirmPassword"  placeholder="Confirm Password" type="password" id="confirmPassword" class="form-control form-control-lg" required/>
                     <label class="form-label" for="confirmPassword">Confrim Password</label>
                   </div>
+                  </ng-container>
+                  
                 </form>
-                  <button class="btn btn-outline-light btn-lg px-5" type="submit" >Update</button>
+                  <button class="btn btn-outline-light btn-lg px-5" type="submit" (click)="update()">Update</button>
                 </div>
 
               </div>
