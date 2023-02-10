@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { User } from './user';
+import { User,  } from './user';
+import { Chat } from './chat';
 import { catchError, map } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import {
@@ -36,6 +37,9 @@ export class CrudService {
   GetUsers() {
     return this.httpClient.get(`${this.REST_API}`);
   }
+
+
+
   // Get single object
   GetUser(id: any): Observable<any> {
     let API_URL = `${this.REST_API}/read-user/${id}`;
@@ -60,6 +64,20 @@ export class CrudService {
       .delete(API_URL, { headers: this.httpHeaders })
       .pipe(catchError(this.handleError));
   }
+
+  GetChatParticipants(id: any, p_id: any):Observable<any>{
+    let API_URL = `${this.REST_API}/chat-users/${id}/${p_id}`;
+    return this.httpClient.post(API_URL,{headers: this.httpHeaders }).pipe(
+      map((res: any)=>{
+        return res || {};
+      }),
+      catchError(this.handleError)
+    );
+  }
+  GetChats(){
+    return this.httpClient.get(`${this.REST_API}/chats`);
+  }
+
   // Error
   handleError(error: HttpErrorResponse) {
     let errorMessage = '';

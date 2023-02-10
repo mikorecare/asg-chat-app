@@ -8,6 +8,7 @@ import { ValidateService } from './pages/validate.service';
 import { AuthGuard } from 'src/services/auth.guard';
 import { HomeComponent } from './pages/edit-profile/home/home.component';
 import { ProfileComponent } from './pages/edit-profile/profile/profile.component';
+import { ChatComponent } from './chat/chat.component';
 const routes: Routes = [
  
   { 
@@ -23,7 +24,8 @@ const routes: Routes = [
   { path: 'delete-profile/:id', component: DeleteProfileComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: '', pathMatch: 'full', redirectTo: 'login', },
+  { path: 'chat', component: ChatComponent, canActivate: [AuthGuard] },
+  { path: '', pathMatch: 'full', redirectTo: 'chat', },
 ];
 
 @NgModule({

@@ -15,6 +15,7 @@ mongoose
     console.error('Error connecting to mongo', err.reason)
   })
 const userRoute = require('././routes/user-routes')
+const chatRoute = require('././routes/chat-routes')
 const app = express()
 app.use(bodyParser.json())
 app.use(
@@ -27,6 +28,8 @@ app.use(cors())
 app.use(express.static(path.join(__dirname, 'dist/asg-chat-app')))
 // API root
 app.use('/api', userRoute)
+app.use('/api', chatRoute)
+
 // PORT
 const port = process.env.PORT || 8000
 app.listen(port, () => {

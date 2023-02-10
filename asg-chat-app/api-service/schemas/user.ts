@@ -1,7 +1,7 @@
 
 
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 const variables = require('../variable.ts')
  const dateOptions1 = variables.dateOptions;
  const emailRegex1 = variables.emailRegex;
