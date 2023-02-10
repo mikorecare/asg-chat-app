@@ -1,6 +1,5 @@
 const express = require('express');
 const { default: mongoose } = require('mongoose');
-const app = express();
 const userRoute = express.Router();
 let User = require('../schemas/user.ts');
 const jwt = require('jsonwebtoken');
@@ -75,7 +74,6 @@ userRoute.route('/refresh/token').post((req,res,next)=>{
             }
            else {
             return next({
-              status: 401,
               message: "Malformed token. Cannot refresh token." + test[1],
             });
           }
