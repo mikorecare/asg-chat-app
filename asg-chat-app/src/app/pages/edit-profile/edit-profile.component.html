@@ -1,12 +1,11 @@
-<div class="container">
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <ng-container *ngFor="let current of User">
-        <h2 class="h2">Welcome {{current.firstName}}</h2>
-        </ng-container>
-        <div class="pull-right"> <button (click)="logout()">logout</button></div>
-    </div>
- 
-     
-     
 
+  <nav>
+  <div class="topnav">
+    <a routerLink="/home" routerLinkActive="active" >Home</a>
+    <a routerLink="/profile" routerLinkActive="active">Profile</a>
+    <a style="float:right" href="#" (click)="logout()">Logout</a>
   </div>
+</nav>
+    <div>
+        <router-outlet></router-outlet>
+    </div>

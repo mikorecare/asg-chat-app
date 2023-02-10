@@ -1,0 +1,54 @@
+<app-edit-profile></app-edit-profile>
+
+
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-lg-12 col-xl-12">
+          <div class="card">
+            <div class="rounded-top text-white d-flex flex-row" style="background-color: #000; height:200px;">
+              <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px; height:250px">
+                <img src="https://qph.cf2.quoracdn.net/main-qimg-2b21b9dd05c757fe30231fac65b504dd"
+                  alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                  style="width: 150px; height: 200px; z-index: 1">
+                <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                  style="z-index: 1;" (click)="isEditing = !isEditing">
+                  Edit profile
+                </button>
+              </div>
+
+              <div class="ms-3" style="margin-top: 130px;">
+                <h5>{{User[0]}} {{User[1]}}</h5>
+                <p>{{User[2]}}</p>
+              </div>
+            </div>
+            <div class="p-4 text-black" style="background-color: #f8f9fa;">
+              <div class="d-flex justify-content-end text-center py-1">
+                <div>
+                  <p class="mb-1 h5">253</p>
+                  <p class="small text-muted mb-0">Photos</p>
+                </div>
+                <div class="px-3">
+                  <p class="mb-1 h5">1026</p>
+                  <p class="small text-muted mb-0">Followers</p>
+                </div>
+                <div>
+                  <p class="mb-1 h5">478</p>
+                  <p class="small text-muted mb-0">Following</p>
+                </div>
+              </div>
+            </div>
+            <div class="container" *ngIf="isEditing">
+                <div class="row mb-3 mt-5">
+                  <div class="col-md-12">
+                    <div *ngIf="isEditing">
+                        <app-profile-update ></app-profile-update>
+                      </div>
+                  </div>
+                </div>
+              
+              </div>
+        </div>
+    </div>
+</div>
+
+<router-outlet></router-outlet>

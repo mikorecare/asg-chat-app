@@ -10,23 +10,23 @@ const atob = require('atob');
 
 userRoute.route('/login').post( async (req, res, next) =>  {
 
-    const { password, email } = req.body;
-    if (!email) {
-        return next({ status: 403, message: "Email is required!" });
+    const { password, username } = req.body;
+    if (!username) {
+        return next({ status: 403, message: "Username is required!" });
       }
       if (!password) {
         return next({ status: 403, message: "Password is required!" });
       }
-      if (!email) {
-        return next({ status: 403, message: "Email is required!" });
+      if (!username) {
+        return next({ status: 403, message: "Username is required!" });
       }
   
       if (!password) {
         return next({ status: 403, message: "Password is required!" });
       }
 
-      if(email && password){
-        User.find({"email":req.body.email,"password":req.body.password},
+      if(username && password){
+        User.find({"username":req.body.username,"password":req.body.password},
         (error, data) => {
   
           if (error) {
@@ -39,7 +39,7 @@ userRoute.route('/login').post( async (req, res, next) =>  {
                 try {
                     const token = jwt.sign(
                       {
-                        email: data[0].email,
+                        username: data[0].username,
                         userId: data[0]._id,
                       },
                       JWT_SAMPLE_TOKEN,
@@ -66,10 +66,10 @@ userRoute.route('/refresh/token').post((req,res,next)=>{
     }
     try{
         const test= token.split(".");
-       const email = atob(test[0]);
+       const username = atob(test[0]);
        const userId = atob(test[1]);
-        if (email && userId) {
-              const  token = jwt.sign({ email, userId }, JWT_SAMPLE_TOKEN, {
+        if (username && userId) {
+              const  token = jwt.sign({ username, userId }, JWT_SAMPLE_TOKEN, {
                   expiresIn: "30m",
                 })
                 res.json(token);
@@ -108,7 +108,7 @@ userRoute.route('/').get((req, res) => {
   })
 })
 // get user
-userRoute.route('/read-user/:id').get((req, res) => {
+userRoute.route('/read-user/:id').post((req, res) => {
     User.findById(req.params.id, (error, data) => {
 
     if (error) {

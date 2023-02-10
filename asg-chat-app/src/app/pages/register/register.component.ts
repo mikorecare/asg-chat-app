@@ -50,12 +50,22 @@ export class RegisterComponent {
   }
 
 register(){
-  if(this.confirmPassword?.value != this.password?.value){
+  if(this.firstName?.value.length < 1 || this.firstName?.value.length < 1){
+    alert("First Name or Last Name is empty!");
+  }
+  else if(this.username?.value.length < 4){
+    alert("username should be at least 4 characters!");
+  }
+  else if(this.confirmPassword?.value.length < 6 || this.password?.value.length < 5 ){
+    alert("Password should be at least 6 characters!");
+  }
+  else if(this.confirmPassword?.value != this.password?.value){
     alert("Passwords didn't match");
   }
+  else{
   alert("Registration succesful!");
   this.crudservice.AddUser(this.form.value).subscribe();
   this.goto();
-
+  }
 }
 }

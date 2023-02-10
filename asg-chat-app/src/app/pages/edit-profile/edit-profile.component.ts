@@ -8,14 +8,17 @@ import { AuthService } from 'src/services/authservice';
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.scss']
 })
-export class EditProfileComponent implements OnInit, AfterViewChecked {
-  User:any = this.global.loginId;
+export class EditProfileComponent implements OnInit {
+  userId = localStorage.getItem("userId");
+  User:any = [];
   constructor(private crudService: CrudService, public global: Global, public router: Router, public auth: AuthService) { }
   ngOnInit(): void {    
-
+   this.getUser();
   }
-  ngAfterViewChecked(): void {
-
+ 
+   getUser(){
+    
+   this.crudService.GetUser(this.userId).subscribe((data)=>{this.User = data["firstName"]})
   }
   goto(value: string) {
     this.router.navigate([`/${value}`]);
@@ -31,6 +34,8 @@ export class EditProfileComponent implements OnInit, AfterViewChecked {
 
   logout(){
     localStorage.removeItem("token");
+    localStorage.removeItem("email");
+    localStorage.removeItem("userId");
     this.goto("login");
   }
 }

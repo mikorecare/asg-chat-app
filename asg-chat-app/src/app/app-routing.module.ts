@@ -6,6 +6,8 @@ import { DeleteProfileComponent } from './pages/delete-profile/delete-profile.co
 import { LoginComponent } from './pages/login/login.component';
 import { ValidateService } from './pages/validate.service';
 import { AuthGuard } from 'src/services/auth.guard';
+import { HomeComponent } from './pages/edit-profile/home/home.component';
+import { ProfileComponent } from './pages/edit-profile/profile/profile.component';
 const routes: Routes = [
  
   { 
@@ -19,6 +21,8 @@ const routes: Routes = [
 },
   { path: 'edit-profile', component: EditProfileComponent, canActivate: [AuthGuard] },
   { path: 'delete-profile/:id', component: DeleteProfileComponent },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: '', pathMatch: 'full', redirectTo: 'login', },
 ];
 

@@ -10,6 +10,9 @@ import { EditProfileComponent } from './pages/edit-profile/edit-profile.componen
 import { LoginComponent } from './pages/login/login.component';
 import { ValidateService } from './pages/validate.service';
 import { Global } from './service/global';
+import { HomeComponent } from './pages/edit-profile/home/home.component';
+import { ProfileComponent } from './pages/edit-profile/profile/profile.component';
+import { ProfileUpdateComponent } from './pages/edit-profile/profile/profile-update/profile-update.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +20,10 @@ import { Global } from './service/global';
     EditProfileComponent,
     DeleteProfileComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    HomeComponent,
+    ProfileComponent,
+    ProfileUpdateComponent
   ],
   imports: [
     BrowserModule,
