@@ -11,18 +11,23 @@ import { AuthService } from 'src/services/authservice';
 export class HomeComponent implements OnInit {
 
   userId = localStorage.getItem("userId");
+  Users:any = [];
   User:any = [];
   constructor(private crudService: CrudService, public global: Global, public router: Router, public auth: AuthService) { }
   ngOnInit(): void {    
    this.getUser();
   }
  
-   getUser(){
-    
-   this.crudService.GetUser(this.userId).subscribe((data)=>{this.User = [data["firstName"],data["lastName"],data["username"]]})
+  async getUser(){
+   await this.crudService.GetUsers().subscribe((data=>this.Users = data)); 
+   await this.crudService.GetUser(this.userId).subscribe((data)=>{this.User = [data["firstName"],data["lastName"],data["username"]]})
   }
   goto(value: string) {
     this.router.navigate([`/${value}`]);
+  }
+
+  send(){
+
   }
 
 }

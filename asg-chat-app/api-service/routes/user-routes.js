@@ -3,7 +3,6 @@ const { default: mongoose } = require('mongoose');
 const app = express();
 const userRoute = express.Router();
 let User = require('../schemas/user.ts');
-const objectId = require('mongoose').objectId;
 const jwt = require('jsonwebtoken');
 const JWT_SAMPLE_TOKEN = 'Aybga8X4GO01iGKsqtyZ4cQfXaj0oCDHo-cqrWC4g1g';
 const atob = require('atob');
@@ -12,17 +11,17 @@ userRoute.route('/login').post( async (req, res, next) =>  {
 
     const { password, username } = req.body;
     if (!username) {
-        return next({ status: 403, message: "Username is required!" });
+        return next({  message: "Username is required!" });
       }
       if (!password) {
-        return next({ status: 403, message: "Password is required!" });
+        return next({  message: "Password is required!" });
       }
       if (!username) {
-        return next({ status: 403, message: "Username is required!" });
+        return next({  message: "Username is required!" });
       }
   
       if (!password) {
-        return next({ status: 403, message: "Password is required!" });
+        return next({  message: "Password is required!" });
       }
 
       if(username && password){

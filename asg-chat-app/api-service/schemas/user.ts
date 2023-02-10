@@ -26,18 +26,6 @@ const variables = require('../variable.ts')
   }, {
     collection: 'users'
   })
-// const userSchema = new Schema(
-//     {
-//       email: {
-//         match: emailRegex1,
-//         type: String,
-//         unique: true,
-//       },
-//       firstName: String,
-//       lastName: String,
-//       password: { type: String, select: false },
-//     },
-//     dateOptions1
-//   );
+
   
   module.exports = mongoose.model("users", users);
