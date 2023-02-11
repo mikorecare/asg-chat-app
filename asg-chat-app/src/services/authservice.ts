@@ -14,22 +14,21 @@ export class AuthService {
         this.router.navigate([`/${value}`]);
       }
     getAuthStatus(){
-        // const token = localStorage.getItem('token');
-        // if(token){
-        //     this.crud.RefreshToken(token).subscribe(
-        //     (data)=>{
-        //         localStorage.setItem("token",data)
-        //     }
-        //     )
-        //     return true;
-        // }
-        // else{
-        //     localStorage.removeItem("token");
-        //     localStorage.removeItem("email");
-        //     localStorage.removeItem("userId");
-        //     this.goto("login");
-        //     return false;
-        // }
-        return true;
+        const token = localStorage.getItem('token');
+        if(token){
+            this.crud.RefreshToken(token).subscribe(
+            (data)=>{
+                localStorage.setItem("token",data)
+            }
+            )
+            return true;
+        }
+        else{
+            localStorage.removeItem("token");
+            localStorage.removeItem("username");
+            localStorage.removeItem("userId");
+            this.goto("login");
+            return false;
+        }
     }
 }

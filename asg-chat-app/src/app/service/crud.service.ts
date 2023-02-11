@@ -65,14 +65,16 @@ export class CrudService {
       .pipe(catchError(this.handleError));
   }
 
-  GetChatParticipants(id: any, p_id: any):Observable<any>{
-    let API_URL = `${this.REST_API}/chat-users/${id}/${p_id}`;
-    return this.httpClient.post(API_URL,{headers: this.httpHeaders }).pipe(
+  GetChatParticipants(data:any):Observable<any>{
+    let id = "63e6815d160d3e0b12a28eff"
+    let API_URL = `${this.REST_API}/chat/${id}`;
+    return this.httpClient.post(API_URL,{myId: id})
+    .pipe(
       map((res: any)=>{
-        return res || {};
+        return res || {}
       }),
       catchError(this.handleError)
-    );
+    )
   }
   GetChats(){
     return this.httpClient.get(`${this.REST_API}/chats`);

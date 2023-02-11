@@ -15,14 +15,14 @@ export class ChatComponent implements OnInit {
   ngOnInit(): void {
   this.crudservice.GetUsers().subscribe(data=>{
     this.Users = data;
-  })
+  });
 
   }
 
-  getUser(User: any){
-    this.crudservice.GetChats().subscribe(data=>{
-      console.log(data);
-    })
+  getUser(){
+    let data = {id:"63e5546c9c63e09b72f90279",p_id:"63e556969c63e09b72f9027f"}
+    // this.crudservice.GetChats().subscribe(data=>{console.log(data)});
+    this.crudservice.GetChatParticipants(data).subscribe();
   }
 
 }

@@ -15,7 +15,7 @@ chatRoute.route('/chats').get((req, res) => {
 })
 })
 
-chatRoute.route('/chat/:id').post((res,req)=>{
+chatRoute.route('/chat').post((res,req)=>{
     Chat.findById(req.params.id,(error, data) =>{
         if (error) {
             return next(error)
@@ -25,8 +25,8 @@ chatRoute.route('/chat/:id').post((res,req)=>{
     })
 });
 
-chatRoute.route('/chat-users/:id/:p_id').post((res,req,next) =>{
-  Chat.findById(req.params.id,
+chatRoute.route('/chats/:id').get((res) =>{
+  Chat.findById(res.params.id,
     (error,data)=> {
       if (error) {
         return next({message: "hahaha"})
@@ -35,7 +35,7 @@ chatRoute.route('/chat-users/:id/:p_id').post((res,req,next) =>{
         res.next({message: data});
       }
       else{
-        res.next({message: "Found 1!"})
+        res.next({message: data})
       }
     }
   )

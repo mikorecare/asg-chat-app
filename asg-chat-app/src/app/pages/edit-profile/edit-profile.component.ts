@@ -34,7 +34,7 @@ export class EditProfileComponent implements OnInit {
 
   logout(){
     localStorage.removeItem("token");
-    localStorage.removeItem("email");
+    localStorage.removeItem("username");
     localStorage.removeItem("userId");
     this.goto("login");
   }
