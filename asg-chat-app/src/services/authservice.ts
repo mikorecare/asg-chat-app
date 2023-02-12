@@ -18,6 +18,7 @@ export class AuthService {
         if(token){
             this.crud.RefreshToken(token).subscribe(
             (data)=>{
+                localStorage.removeItem("token");
                 localStorage.setItem("token",data)
             }
             )

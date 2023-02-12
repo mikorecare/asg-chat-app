@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="card-body contacts_body">
-                <ul class="contacts" *ngFor="let users of Users; let i = index">
+                <ul class="contacts" *ngFor="let users of chatsList; let i = index">
                     <li (click)="getUser()">
                         <div class="d-flex bd-highlight">
                             <div class="img_cont">
@@ -18,7 +18,7 @@
                                 <span class="online_icon"></span>
                             </div>
                             <div class="user_info">
-                                <span>{{users.firstName}} {{users.lastName}}</span>
+                                <span></span>
                             </div>
                         </div>
                     </li>

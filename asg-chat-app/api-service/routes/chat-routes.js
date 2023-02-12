@@ -1,8 +1,10 @@
 
-const express = require('express');
-const chatRoute = express.Router();
-const { default: mongoose } = require('mongoose');
-let Chat = require('../schemas/chat.ts');
+const express = require('express')
+const chatRoute = express.Router()
+const { default: mongoose } = require('mongoose')
+let Chat = require('../schemas/chat.ts')
+
+
 
 //get chat list
 chatRoute.route('/chats').get((req, res) => {
@@ -15,7 +17,7 @@ chatRoute.route('/chats').get((req, res) => {
 })
 })
 
-chatRoute.route('/chat').post((res,req)=>{
+chatRoute.route('/chat').post((req,res)=>{
     Chat.findById(req.params.id,(error, data) =>{
         if (error) {
             return next(error)
@@ -25,17 +27,19 @@ chatRoute.route('/chat').post((res,req)=>{
     })
 });
 
-chatRoute.route('/chats/:id').get((res) =>{
-  Chat.findById(res.params.id,
+chatRoute.route('/chats-list').post((req,res) =>{
+  console.log(req.body)
+  Chat.find({"users":{$in:[req.body.myId]}},
     (error,data)=> {
       if (error) {
         return next({message: "hahaha"})
       }
       else if(data.length<1){
-        res.next({message: data});
+        req.next({message: data});
       }
       else{
-        res.next({message: data})
+ 
+        res.json(data)
       }
     }
   )

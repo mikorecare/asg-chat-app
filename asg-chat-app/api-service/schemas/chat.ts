@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
  let chats = new Schema({
     users:  [{ref: 'users',type: mongoose.Types.ObjectId}],
-    messages: [{body: String, date: Date }]
+      messages: [{message:[{type: String}], timeStamp: [{type: Number}], sender:[{ref: 'users',type: mongoose.Types.ObjectId}]}]
  },
  {collection: 'chats'});
 

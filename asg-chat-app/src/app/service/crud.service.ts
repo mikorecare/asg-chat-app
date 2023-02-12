@@ -66,9 +66,9 @@ export class CrudService {
   }
 
   GetChatParticipants(data:any):Observable<any>{
-    let id = "63e6815d160d3e0b12a28eff"
-    let API_URL = `${this.REST_API}/chat/${id}`;
-    return this.httpClient.post(API_URL,{myId: id})
+  
+    let API_URL = `${this.REST_API}/chats-list`;
+    return this.httpClient.post(API_URL,{myId: data})
     .pipe(
       map((res: any)=>{
         return res || {}
