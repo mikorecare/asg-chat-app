@@ -10,6 +10,12 @@ import { Chat } from '../service/chat';
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit {
+  isSelected = false;
+  numberOfMessages: number;
+  chatMe: any = [];
+  chatYou: any = []
+  chatId: String;
+  chatData: any = []
   userId = localStorage.getItem("userId");
   Users: any = []
   chatsList: any =[]
@@ -25,18 +31,38 @@ export class ChatComponent implements OnInit {
   getUser(){
     // this.crudservice.GetChats().subscribe(data=>{console.log(data)});
     this.crudservice.GetChatParticipants(this.userId).subscribe((data)=>{
-      
       data==null?this.chatsList=[]:this.chatsList = data;
-      console.log(this.chatsList)
     });
   }
   getName(data:Chat){
-console.log(data)
+
     //  const name = myData.map((data:User)=>{
     //     if(data._id != this.userId){
     //       return data.firstName
     //     }
     //   })
+  }
+
+  getChatRoom(id:any){
+    this.chatId = id;
+    this.crudservice.GetChatRoom(id).subscribe((data)=>{
+      
+      this.chatData = data[0];
+      console.log(this.chatData)
+      this.chatData.chats_users.map((res:any)=>{
+        if(res._id==this.userId){
+          this.chatMe = res;
+        }
+        else{
+          this.chatYou = res
+
+        }
+       
+
+      })
+      this.numberOfMessages=this.chatData.messages.length
+      this.isSelected = true;
+    })
   }
 
   generateSocket() {

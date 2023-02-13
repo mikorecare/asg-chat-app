@@ -17,14 +17,34 @@ chatRoute.route('/chats').get((req, res) => {
 })
 })
 
-chatRoute.route('/chat').post((req,res)=>{
-    Chat.findById(req.params.id,(error, data) =>{
-        if (error) {
-            return next(error)
-          } else {
-            res.json(data)
-          }
-    })
+//chat findById
+chatRoute.route('/chat/:id').get(async (req,res)=>{
+  try {
+    let result = await Chat.aggregate([
+     { $match : {
+        _id: mongoose.Types.ObjectId(req.params.id) 
+      } 
+    } ,
+    {
+     $lookup: 
+     {
+        from: "users",
+        localField: "users",
+        foreignField: "_id",
+        as: "chats_users"
+      }},
+      {
+       $project: {
+         chats_users:1,
+         messages: 1,
+         _id: 1
+       }
+      }
+     ])
+     res.send(result);
+ } catch (e) {
+     res.send(null)
+ }
 });
 
 chatRoute.route('/chats-list').post(async (req,res) =>{
