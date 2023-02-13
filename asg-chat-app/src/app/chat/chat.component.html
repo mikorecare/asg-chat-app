@@ -10,16 +10,32 @@
                 </div>
             </div>
             <div class="card-body contacts_body">
-                <ul class="contacts" *ngFor="let users of chatsList; let i = index">
-                    <li (click)="getUser()">
+                <ul class="contacts">
+                    <li>
+                        <div class="d-flex bd-highlight">
+                            <div class="img_cont">
+                                <i  class="fa fa-plus user_img_icon user_img" ></i>
+                            </div>
+                            <div class="user_info">
+                                <span>Add a chat</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+                <ul class="contacts" *ngFor="let chats of chatsList; let i = index">
+                    <li (click)="getName(chats[i])">
                         <div class="d-flex bd-highlight">
                             <div class="img_cont">
                                 <img src="" class="rounded-circle user_img">
                                 <span class="online_icon"></span>
                             </div>
-                            <div class="user_info">
-                                <span></span>
+                            <div class="user_info" *ngFor="let user of chats.chats_users">
+                                <ng-container *ngIf="userId != user._id">
+                                    <span>{{user.firstName}} {{user.lastName}}</span>
+                                </ng-container>
                             </div>
+                           
                         </div>
                     </li>
                 </ul>

@@ -2,6 +2,8 @@ import { Timestamp } from "rxjs";
 
 export class Chat {
     _id!: String;
-    users!:[];
-    messages! : [];
+    chats_users!:any[];
+    users!:any[];
+    messages! : any[];
 }
+

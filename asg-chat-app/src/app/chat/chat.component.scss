@@ -85,6 +85,7 @@ background-color: rgba(0,0,0,0.3) !important;
     padding: 5px 10px;
     margin-bottom: 15px !important;
 }
+
 .active{
     background-color: rgba(0,0,0,0.3);
 }
@@ -92,6 +93,7 @@ background-color: rgba(0,0,0,0.3) !important;
     height: 70px;
     width: 70px;
     border:1.5px solid #f5f6fa;
+    
 
 }
 .user_img_msg{
@@ -99,6 +101,13 @@ background-color: rgba(0,0,0,0.3) !important;
     width: 40px;
     border:1.5px solid #f5f6fa;
 
+
+}
+.user_img_icon{
+    padding-top: 8px;
+    font-size:60px;
+    color:#82ccdd;
+    text-align: center;
 }
 .img_cont{
     position: relative;

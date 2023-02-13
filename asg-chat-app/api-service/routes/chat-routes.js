@@ -27,22 +27,31 @@ chatRoute.route('/chat').post((req,res)=>{
     })
 });
 
-chatRoute.route('/chats-list').post((req,res) =>{
-  console.log(req.body)
-  Chat.find({"users":{$in:[req.body.myId]}},
-    (error,data)=> {
-      if (error) {
-        return next({message: "hahaha"})
+chatRoute.route('/chats-list').post(async (req,res) =>{
+
+  try {
+   let result = await Chat.aggregate([
+    { $match : { users : { $in :  [mongoose.Types.ObjectId(req.body.myId)]  } } },
+   {
+    $lookup: 
+    {
+       from: "users",
+       localField: "users",
+       foreignField: "_id",
+       as: "chats_users"
+     }},
+     {
+      $project: {
+        chats_users:1,
+        messages: 1,
+        _id: 1
       }
-      else if(data.length<1){
-        req.next({message: data});
-      }
-      else{
- 
-        res.json(data)
-      }
-    }
-  )
+     }
+    ])
+    res.send(result);
+} catch (e) {
+    res.send(null)
+}
 })
 
 chatRoute.route('/send').post((res, req) =>{
