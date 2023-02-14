@@ -1,8 +1,14 @@
 
+// const io = require('../server').getIo()
+
+const http = require('http')
 const express = require('express')
+const app = express();
 const chatRoute = express.Router()
 const { default: mongoose } = require('mongoose')
 let Chat = require('../schemas/chat.ts')
+
+
 
 
 
@@ -19,6 +25,7 @@ chatRoute.route('/chats').get((req, res) => {
 
 //chat findById
 chatRoute.route('/chat/:id').get(async (req,res)=>{
+  
   try {
     let result = await Chat.aggregate([
      { $match : {
@@ -41,7 +48,9 @@ chatRoute.route('/chat/:id').get(async (req,res)=>{
        }
       }
      ])
+ 
      res.send(result);
+    
  } catch (e) {
      res.send(null)
  }

@@ -1,3 +1,5 @@
+const msg = require('./schemas/chat.ts')
+const { default: mongoose } = require('mongoose');
 const express = require('express');
 const path = require('path');
 const db = require('./db')
@@ -8,10 +10,14 @@ const http = require('http');
 const userRoute = require('././routes/user-routes');
 const chatRoute = require('././routes/chat-routes');
 const app = express();
-const socketIo = require('socket.io');
-server = http.Server(app)
-const io = socketIo(server);
 
+server = http.Server(app)
+const socketIo = require('socket.io')(server)
+socketIo.removeAllListeners()
+
+module.exports = {
+    start
+}
 
 function start(){
     app.use(bodyParser.json({limit: '50mb'}));
@@ -57,19 +63,33 @@ function start(){
     server.listen(port, () => {
       console.log('Listening on port ' + port)
     });
-}
-
-function getIo(){
-    return io;
-}
-module.exports = {
-    start, getIo
+    
 }
 
 
-// io.on('connection', (socket) =>{
-//   socket.emit("message","Hi Client!");
-//   socket.on("message",(message)=>{
-//     console.log(message)
-//   });
-// })
+
+
+
+//SOCKET
+socketIo.on('connection', (socket) =>{
+    
+  socket.once("send-message",async (message)=>{
+    try{ 
+
+        await msg.findByIdAndUpdate(mongoose.Types.ObjectId(message._id),{
+          $push: {messages: [{message:message.messages.message,
+                            timeStamp:message.messages.timeStamp,
+                            sender:mongoose.Types.ObjectId(message.messages.sender)}]}}, (error, data) => {
+           if (error) {
+             return console.log(error);
+           } else {
+           //   socket.emit("back-to-chatroom",message.messages.message)
+           console.log(data)
+           }
+         })
+    }catch(e){
+        console.log(e)
+    }
+      
+  });
+})

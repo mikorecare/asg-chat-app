@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CrudService } from '../service/crud.service';
 import  {io} from "socket.io-client";
-import { last } from 'rxjs';
-import { User } from '../service/user';
 import { Chat } from '../service/chat';
+import { FormBuilder, FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit {
+  form: FormGroup;
   isSelected = false;
   numberOfMessages: number;
   chatMe: any = [];
@@ -19,13 +19,16 @@ export class ChatComponent implements OnInit {
   userId = localStorage.getItem("userId");
   Users: any = []
   chatsList: any =[]
-  constructor(private crudservice: CrudService){
-
+  constructor(private crudservice: CrudService, public formBuilder: FormBuilder,){
+    this.form = this.formBuilder.group({
+      id: [''],
+      password: [''],
+      message: ['']
+  })
   }
 
   ngOnInit(): void {
     this.getUser();
-    this.generateSocket()
   }
 
   getUser(){
@@ -46,9 +49,7 @@ export class ChatComponent implements OnInit {
   getChatRoom(id:any){
     this.chatId = id;
     this.crudservice.GetChatRoom(id).subscribe((data)=>{
-      
       this.chatData = data[0];
-      console.log(this.chatData)
       this.chatData.chats_users.map((res:any)=>{
         if(res._id==this.userId){
           this.chatMe = res;
@@ -65,12 +66,31 @@ export class ChatComponent implements OnInit {
     })
   }
 
-  generateSocket() {
+  generateSocket(type:string,data?:any) {
     const socket = io("ws://localhost:8000", { transports: ["websocket"]} );
-    socket.on("message", (message) =>{
-      console.log(message)
-    });
-    socket.emit("message", "hi server");
+    socket.removeAllListeners()
+    if(type=="receive"){
+      socket.on("back-to-user", (message) =>{
+        console.log(message)
+      });
+      
+    }
+    if(type=="send"){
+      console.log("blah blah")
+      socket.emit("send-message", data);
+    }
+    }
+
+
+  get message() {
+    return this.form.get(['message']);
+  }
+  clearForm(){
+    this.form.reset()
+  }
+  send(){
+    let finalMessage = {_id:this.chatId ,messages:{sender: this.userId,timeStamp: new Date,message: this.message?.value}}
+    this.generateSocket("send",finalMessage);
   }
 
 }
