@@ -39,6 +39,8 @@ export class ChatComponent implements OnInit {
       let {sender, timeStamp, message} = received
       console.log(sender, timeStamp, message)
       this.chatData.messages.push({sender: sender,timeStamp:timeStamp,message: message})
+      let index = this.chatsList.findIndex((q:any)=>q._id == this.chatId)
+      this.chatsList[index].messages.push({sender: sender,timeStamp:timeStamp,message: message})
     });
 
   }
@@ -60,7 +62,8 @@ export class ChatComponent implements OnInit {
 
   getChatRoom(id:any){
     
-    this.chatId = id;
+    this.chatId = id; 
+
     this.crudservice.GetChatRoom(id).subscribe((data)=>{
       this.chatData = data[0];
       this.chatData.chats_users.map((res:any)=>{

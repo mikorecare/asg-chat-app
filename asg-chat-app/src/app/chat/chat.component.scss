@@ -137,11 +137,16 @@ margin-bottom: auto;
 margin-left: 5px;
 }
 .user_info span{
-font-size: 15px;
+font-size: 20px;
 color: white;
 }
 .deleted_user{
     margin-left: 10px;
+}
+.last_message span{
+    font-size: 15px;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
 }
 .user_info p{
 font-size: 10px;
@@ -210,6 +215,7 @@ color: white;
 cursor: pointer;
 font-size: 20px;
 }
+
 .action_menu{
 z-index: 1;
 position: absolute;
