@@ -39,7 +39,7 @@ export class ChatComponent implements OnInit {
       console.log(sender, timeStamp, message)
       this.chatData.messages.push({sender: sender,timeStamp:timeStamp,message: message})
     });
- 
+
   }
 
   getUser(){
@@ -58,23 +58,30 @@ export class ChatComponent implements OnInit {
   }
 
   getChatRoom(id:any){
+    console.log(this.chatsList)
     this.chatId = id;
     this.crudservice.GetChatRoom(id).subscribe((data)=>{
       this.chatData = data[0];
       this.chatData.chats_users.map((res:any)=>{
+
         if(res._id==this.userId){
           this.chatMe = res;
+          console.log(this.chatMe)
         }
+
         else{
           this.chatYou = res
-
+  
         }
        
 
       })
+      if(this.chatData.chats_users.length < 2){
+        this.chatYou = {firstName: "Deleted User"}
+        this.chatData.chats_users.push(this.chatYou)
+      }
       this.numberOfMessages=this.chatData.messages.length
       this.isSelected = true;
-      console.log(this.chatData);
     })
   }
 

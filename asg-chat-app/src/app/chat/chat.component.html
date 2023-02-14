@@ -31,8 +31,11 @@
                                 <span class="online_icon"></span>
                             </div>
                             <div class="user_info" *ngFor="let user of chats.chats_users">
-                                <ng-container *ngIf="userId != user._id;">
+                                <ng-container *ngIf="userId != user._id">
                                     <span>{{user.firstName}} {{user.lastName}}</span>
+                                </ng-container>
+                                <ng-container *ngIf="chats.chats_users.length<2">
+                                    <span class="deleted_user"> Deleted User </span>
                                 </ng-container>
                             </div>
                            
