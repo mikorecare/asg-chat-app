@@ -4,6 +4,7 @@ import  {io} from "socket.io-client";
 import { Chat } from '../service/chat';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Socket } from 'socket.io';
+import { TemplateBindingParseResult } from '@angular/compiler';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
@@ -11,13 +12,14 @@ import { Socket } from 'socket.io';
 })
 export class ChatComponent implements OnInit {
   socket = io("ws://localhost:8000", { transports: ["websocket"]} );
+
   form: FormGroup;
   isSelected = false;
   numberOfMessages: number;
   chatMe: any = [];
   chatYou: any = []
   chatId: String;
-  chatData: any = []
+  chatData: Chat
   userId = localStorage.getItem("userId");
   Users: any = []
   chatsList: any =[]
@@ -32,10 +34,12 @@ export class ChatComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUser();
-    this.socket.on("back-to-user", (message:Chat) =>{
-      this.chatData.messages.push(message.messages)
+    this.socket.on("back-to-chatroom", (received:Chat) =>{
+      let {sender, timeStamp, message} = received
+      console.log(sender, timeStamp, message)
+      this.chatData.messages.push({sender: sender,timeStamp:timeStamp,message: message})
     });
-    
+ 
   }
 
   getUser(){
@@ -70,26 +74,26 @@ export class ChatComponent implements OnInit {
       })
       this.numberOfMessages=this.chatData.messages.length
       this.isSelected = true;
-      console.log = this.chatData;
+      console.log(this.chatData);
     })
   }
 
-  generateSocket(data?:any) {
-
+   generateSocket(data?:any) {
       this.socket.emit("send-message", data);
-    
+      
     }
 
 
-  get message() {
+  get formMessage() {
     return this.form.get(['message']);
   }
-  clearForm(){
-    this.form.reset()
+  clearSend(){
+    this.form.get(['message'])?.setValue('')
   }
   send(){
-    let finalMessage = {_id:this.chatId ,messages:{sender: this.userId,timeStamp: new Date,message: this.message?.value}}
+    let finalMessage = {_id:this.chatId ,messages:{sender: this.userId,timeStamp: new Date,message: this.formMessage?.value}}
     this.generateSocket(finalMessage);
+    this.clearSend()
   }
 
 }

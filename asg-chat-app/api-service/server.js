@@ -76,17 +76,18 @@ socketIo.on('connection', (socket) =>{
   socket.once("send-message",async (message)=>{
     try{ 
 
-        await msg.findByIdAndUpdate(mongoose.Types.ObjectId(message._id),{
+       var data=  await msg.findByIdAndUpdate(mongoose.Types.ObjectId(message._id),{
           $push: {messages: [{message:message.messages.message,
                             timeStamp:message.messages.timeStamp,
                             sender:mongoose.Types.ObjectId(message.messages.sender)}]
-                          }}, async (error, data) => {
-           if (error) {
-             return console.log(error);
-           } if(data){
-            return await socket.emit("back-to-chatroom",data.messages)
-           }
-         })
+                          }})
+             if(data){
+              await socketIo.sockets.emit("back-to-chatroom",message.messages)
+              console.log("file sent!", message.messages)
+             }
+             
+          
+  
     }catch(e){
         console.log(e)
     }
