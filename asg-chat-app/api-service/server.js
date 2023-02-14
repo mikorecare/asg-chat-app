@@ -79,12 +79,12 @@ socketIo.on('connection', (socket) =>{
         await msg.findByIdAndUpdate(mongoose.Types.ObjectId(message._id),{
           $push: {messages: [{message:message.messages.message,
                             timeStamp:message.messages.timeStamp,
-                            sender:mongoose.Types.ObjectId(message.messages.sender)}]}}, (error, data) => {
+                            sender:mongoose.Types.ObjectId(message.messages.sender)}]
+                          }}, async (error, data) => {
            if (error) {
              return console.log(error);
-           } else {
-           //   socket.emit("back-to-chatroom",message.messages.message)
-           console.log(data)
+           } if(data){
+            return await socket.emit("back-to-chatroom",data.messages)
            }
          })
     }catch(e){

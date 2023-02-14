@@ -3,12 +3,14 @@ import { CrudService } from '../service/crud.service';
 import  {io} from "socket.io-client";
 import { Chat } from '../service/chat';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Socket } from 'socket.io';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit {
+  socket = io("ws://localhost:8000", { transports: ["websocket"]} );
   form: FormGroup;
   isSelected = false;
   numberOfMessages: number;
@@ -20,6 +22,7 @@ export class ChatComponent implements OnInit {
   Users: any = []
   chatsList: any =[]
   constructor(private crudservice: CrudService, public formBuilder: FormBuilder,){
+    this.socket = io("ws://localhost:8000", { transports: ["websocket"]} );
     this.form = this.formBuilder.group({
       id: [''],
       password: [''],
@@ -29,6 +32,10 @@ export class ChatComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUser();
+    this.socket.on("back-to-user", (message:Chat) =>{
+      this.chatData.messages.push(message.messages)
+    });
+    
   }
 
   getUser(){
@@ -63,22 +70,14 @@ export class ChatComponent implements OnInit {
       })
       this.numberOfMessages=this.chatData.messages.length
       this.isSelected = true;
+      console.log = this.chatData;
     })
   }
 
-  generateSocket(type:string,data?:any) {
-    const socket = io("ws://localhost:8000", { transports: ["websocket"]} );
-    socket.removeAllListeners()
-    if(type=="receive"){
-      socket.on("back-to-user", (message) =>{
-        console.log(message)
-      });
-      
-    }
-    if(type=="send"){
-      console.log("blah blah")
-      socket.emit("send-message", data);
-    }
+  generateSocket(data?:any) {
+
+      this.socket.emit("send-message", data);
+    
     }
 
 
@@ -90,7 +89,7 @@ export class ChatComponent implements OnInit {
   }
   send(){
     let finalMessage = {_id:this.chatId ,messages:{sender: this.userId,timeStamp: new Date,message: this.message?.value}}
-    this.generateSocket("send",finalMessage);
+    this.generateSocket(finalMessage);
   }
 
 }

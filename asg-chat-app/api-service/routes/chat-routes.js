@@ -83,20 +83,5 @@ chatRoute.route('/chats-list').post(async (req,res) =>{
 }
 })
 
-chatRoute.route('/send').post((res, req) =>{
-  
-    Chat.findByIdAndUpdate(req.params.id, {
-        $set: req.body
-      }, (error, data) => {
-        if (error) {
-          return next(error);
-        } else {
-            pusher.trigger(data._id, "message" ,  {
-                sender: req.body.userId,
-                message: req.body.message
-              });
-        }
-      })
-})
 
 module.exports = chatRoute;
