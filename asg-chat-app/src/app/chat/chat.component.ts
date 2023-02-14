@@ -4,7 +4,8 @@ import  {io} from "socket.io-client";
 import { Chat } from '../service/chat';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Socket } from 'socket.io';
-import { TemplateBindingParseResult } from '@angular/compiler';
+import { User } from '../service/user';
+
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
@@ -12,17 +13,17 @@ import { TemplateBindingParseResult } from '@angular/compiler';
 })
 export class ChatComponent implements OnInit {
   socket = io("ws://localhost:8000", { transports: ["websocket"]} );
-
+  
   form: FormGroup;
   isSelected = false;
   numberOfMessages: number;
-  chatMe: any = [];
-  chatYou: any = []
+  chatMe: User
+  chatYou: User 
   chatId: String;
   chatData: Chat
   userId = localStorage.getItem("userId");
   Users: any = []
-  chatsList: any =[]
+  chatsList: any = [] 
   constructor(private crudservice: CrudService, public formBuilder: FormBuilder,){
     this.socket = io("ws://localhost:8000", { transports: ["websocket"]} );
     this.form = this.formBuilder.group({
@@ -45,7 +46,7 @@ export class ChatComponent implements OnInit {
   getUser(){
     // this.crudservice.GetChats().subscribe(data=>{console.log(data)});
     this.crudservice.GetChatParticipants(this.userId).subscribe((data)=>{
-      data==null?this.chatsList=[]:this.chatsList = data;
+      data==null?this.chatsList:this.chatsList = data;
     });
   }
   getName(data:Chat){
@@ -58,7 +59,7 @@ export class ChatComponent implements OnInit {
   }
 
   getChatRoom(id:any){
-    console.log(this.chatsList)
+    
     this.chatId = id;
     this.crudservice.GetChatRoom(id).subscribe((data)=>{
       this.chatData = data[0];
@@ -98,9 +99,16 @@ export class ChatComponent implements OnInit {
     this.form.get(['message'])?.setValue('')
   }
   send(){
-    let finalMessage = {_id:this.chatId ,messages:{sender: this.userId,timeStamp: new Date,message: this.formMessage?.value}}
+    const onlyWhiteSpace = (test:string) => test.trim().length === 0 
+    if(onlyWhiteSpace(this.formMessage?.value)){
+      alert("Cannot send empty messages!")
+    }
+    else{
+          let finalMessage = {_id:this.chatId ,messages:{sender: this.userId,timeStamp: new Date,message: this.formMessage?.value}}
     this.generateSocket(finalMessage);
     this.clearSend()
+    }
+
   }
 
 }
