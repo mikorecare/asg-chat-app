@@ -21,7 +21,9 @@ body,html{
     white-space: nowrap;
 }
 .msg_card_body{
+    padding: 1px;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 .card-header{
     border-radius: 15px 15px 0 0 !important;
@@ -167,19 +169,21 @@ cursor: pointer;
 margin-right: 20px;
 }
 .msg_cotainer{
+    width: 50%;
     overflow: hidden;
-overflow-wrap: break-word;
+    overflow-wrap: break-word;
     font-size: 20px;
-display: block;
-margin-top: auto;
-margin-bottom: 20px;
-margin-left: 10px;
-border-radius: 25px;
-background-color: #82ccdd;
-padding: 10px;
-position: relative;
+    display: block;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 10px;
+    border-radius: 25px;
+    background-color: #64c3fa;
+    padding: 10px;
+    position: relative;
 }
 .msg_cotainer_send{
+    width: 50%;
 overflow: hidden;
 overflow-wrap: break-word;
 font-size: 20px;
@@ -194,8 +198,8 @@ position: relative;
 }
 .msg_time_me{
 float: left;
-left: 0;
-bottom: -15px;
+left: 10px;
+bottom: -1px;
 color: rgba(252, 252, 252);
 font-size: 11px;
 font-weight: 500;
@@ -203,8 +207,8 @@ position: absolute;
 }
 .msg_time_you{
     float:right;
-    right:0;
-    bottom: -15px;
+    right:10px;
+    bottom: -1px;
     color: rgba(252, 252, 252);
     font-size: 11px;
     font-weight: 500;
