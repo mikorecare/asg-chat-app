@@ -69,7 +69,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.socket.on("delete-chat-results",(results:any)=>{
       this.isSelected = false;
       this.chatsList.splice(this.chatsList.findIndex((q:any)=>q._id == this.chatId),1)
-
+      alert("Chat has been deleted!")
     })
 
   }
@@ -195,7 +195,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
     let boolDelete = confirm("Are you sure want to delete chat room?")
     if(boolDelete == true){
       this.geneRateSocketDeleteChatRoom()
-      alert("Chat has been deleted!")
+      
     }
   }
 }
