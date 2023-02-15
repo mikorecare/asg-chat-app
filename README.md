@@ -1,11 +1,11 @@
-#About
+#About:
 a simple chat application using 
 nodeJs, Express, Http, Socket for the back-end
 Angular for the front-end with plain css
 MongoDB for the database
 
-#Functionalities
-Account Sign up, Edit Profile, Real-time chat app(Create Rooms, Send/Receive)
+#Functionalities:
+Account Sign up, Edit Profile, Real-time chat app(Create Rooms, Send/Receive), Delete Account
 
 #Installation
 Clone the repository
@@ -22,4 +22,4 @@ To test the chat, kindly login using incognito/private browsing and access the s
 
 #upcoming
 Replacement of Alert Prompts to Sweet Alerts
-Deleting Accounts
+
