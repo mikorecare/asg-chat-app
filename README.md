@@ -22,4 +22,4 @@ To test the chat, kindly login using incognito/private browsing and access the s
 
 #upcoming
 Replacement of Alert Prompts to Sweet Alerts
-
+Deleting Chat messages
