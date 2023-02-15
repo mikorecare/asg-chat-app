@@ -16,7 +16,7 @@
                 <div class="card-body contacts_body">
                     <ul class="contacts" *ngFor="let users of userSearchResults">
                         <ng-container *ngIf="userId != users._id">
-                        <li (click)="createChatRoom(users._id)">
+                        <li (click)="createChatRoom(users._id);scrollToEnd()">
                             <div class="d-flex bd-highlight">
                                 <div class="img_cont">
                                     <img src="" class="rounded-circle user_img">
@@ -40,7 +40,7 @@
             <ng-container *ngIf="isSearching == false">
             <div class="card-body contacts_body">
                 <ul class="contacts" *ngFor="let chats of chatsList; let i = index">
-                    <li (click)="getChatRoom(chats._id)" >
+                    <li (click)="getChatRoom(chats._id); scrollToEnd()" >
                         <div class="d-flex bd-highlight">
                             <div class="img_cont">
                                 <img src="" class="rounded-circle user_img">
@@ -139,7 +139,7 @@
                     </div>
                 </div>
                
-                <div class="card-body msg_card_body">
+                <div class="card-body msg_card_body" #chatBody id="chatBody">
                      <ng-container *ngFor="let message of chatData.messages">
                     <div [ngClass]="{'d-flex justify-content-start mb-4':message.sender!==userId,'d-flex justify-content-end mb-4':message.sender===userId}" >
                                 <p [ngClass]="{'msg_container':message.sender!==userId,'msg_container_send':message.sender===userId}">{{message.message}}
@@ -156,7 +156,7 @@
                         <div class="input-group-append">
                             <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
                         </div>
-                        <textarea id="message" formControlName="message" name="message" class="form-control type_msg" placeholder="Type your message..." (keyup.enter)="send()"></textarea>
+                        <textarea id="message" formControlName="message" name="message" class="form-control type_msg" placeholder="Type your message..." (keyup.enter)="send(); scrollToEnd()"></textarea>
                         <div class="input-group-append">
                             <span class="input-group-text send_btn" (click)="send()"><i class="fas fa-location-arrow"></i></span>
                         </div>

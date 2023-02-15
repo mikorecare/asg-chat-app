@@ -60,9 +60,11 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
       this.chatsList.push(results[0]);
       this.getChatRoom(results[0]._id);
+      this.scrollToEnd()
     })
     this.socket.on("chat-room-exists",(results:Chat)=>{
       this.getChatRoom(results._id);
+      this.scrollToEnd()
     })
 
   }
@@ -118,7 +120,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   getChatRoom(id:any){
     this.chatId = id; 
-    this.crudservice.GetChatRoom(id).subscribe((data)=>{
+    this.crudservice.GetChatRoom(id).subscribe(async (data)=>{
       this.chatData = data[0];
       this.chatData.chats_users.map((res:any)=>{
 
@@ -136,6 +138,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
       }
       this.numberOfMessages=this.chatData.messages.length
       this.isSelected = true;
+     
     })
   }
 
@@ -154,6 +157,12 @@ export class ChatComponent implements OnInit, AfterViewInit {
       this.clearSend()
     }
 
+  }
+
+  scrollToEnd(){
+    const element = document.getElementById("chatBody");
+    console.log(document.getElementById("chatBody")?.scrollHeight)
+    element?.scrollTo({left: 0 , top: document.getElementById("chatBody")?.scrollHeight, behavior: 'smooth'});
   }
 
   toDate(date:Date){
