@@ -6,6 +6,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Socket } from 'socket.io';
 import { User } from '../service/user';
 import { debounceTime, distinctUntilChanged, filter, tap } from 'rxjs/operators';
+import { Global } from '../service/global';
+import { formatDate } from '@angular/common';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-chat',
@@ -28,7 +31,10 @@ export class ChatComponent implements OnInit, AfterViewInit {
   userId = localStorage.getItem("userId");
   Users: any = []
   chatsList: any = [] 
-  constructor(private crudservice: CrudService, public formBuilder: FormBuilder,){
+  constructor(private crudservice: CrudService, 
+    public formBuilder: FormBuilder,
+    public global:Global,
+    public datePipe: DatePipe){
     this.socket = io("ws://localhost:8000", { transports: ["websocket"]} );
     this.form = this.formBuilder.group({
       message: ['']
@@ -148,6 +154,16 @@ export class ChatComponent implements OnInit, AfterViewInit {
       this.clearSend()
     }
 
+  }
+
+  toDate(date:Date){
+      
+    if(this.global.today(date)){
+      return "Today at "+ this.datePipe.transform(date,'h:mm a','+0800')
+    }
+    else{
+      return formatDate(date,this.global.day,this.global.locale,this.global.timezone)
+    }
   }
 
   createChatRoom(id:any){

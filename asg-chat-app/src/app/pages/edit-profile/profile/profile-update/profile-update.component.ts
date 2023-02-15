@@ -82,4 +82,8 @@ export class ProfileUpdateComponent {
     }
 
   }
+
+  deleteAccount(){
+    
+  }
 }

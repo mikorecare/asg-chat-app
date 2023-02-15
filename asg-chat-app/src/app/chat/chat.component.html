@@ -84,8 +84,6 @@
                                 <span>Welcome to ASG CHAT APP</span>
                             </div>
                             <div class="video_cam">
-                                <span><i class="fas fa-video"></i></span>
-                                <span><i class="fas fa-phone"></i></span>
                             </div>
                         </div>
                         <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
@@ -126,9 +124,8 @@
                             <span>Chat with {{chatYou.firstName}}</span>
                             <p>{{numberOfMessages}} Messages</p>
                         </div>
-                        <div class="video_cam">
-                            <span><i class="fas fa-video"></i></span>
-                            <span><i class="fas fa-phone"></i></span>
+                        <div class="video_cam pull-right">
+                            <span><i class="fas fa-trash" ></i></span>
                         </div>
                     </div>
                     <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
@@ -148,7 +145,7 @@
                                 <p [ngClass]="{'msg_cotainer':message.sender!==userId,'msg_cotainer_send':message.sender===userId}">{{message.message}}
                       
                                 <span [ngClass]="{'msg_time_me':message.sender!==userId,'msg_time_you':message.sender===userId}" 
-                                >{{message.timeStamp}}</span>
+                                >{{toDate(message.timeStamp)}}</span>
                             </p>    
                     </div>
                 </ng-container>
@@ -159,7 +156,7 @@
                         <div class="input-group-append">
                             <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
                         </div>
-                        <textarea id="message" formControlName="message" name="message" class="form-control type_msg" placeholder="Type your message..."></textarea>
+                        <textarea id="message" formControlName="message" name="message" class="form-control type_msg" placeholder="Type your message..." (keyup.enter)="send()"></textarea>
                         <div class="input-group-append">
                             <span class="input-group-text send_btn" (click)="send()"><i class="fas fa-location-arrow"></i></span>
                         </div>

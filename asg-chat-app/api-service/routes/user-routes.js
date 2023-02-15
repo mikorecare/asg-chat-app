@@ -40,9 +40,8 @@ userRoute.route('/login').post( async (req, res, next) =>  {
                         username: data[0].username,
                         userId: data[0]._id,
                       },
-                      JWT_SAMPLE_TOKEN,
-                      {
-                        expiresIn: "30m",
+                      JWT_SAMPLE_TOKEN,{
+                        expiresIn:"30m"
                       }
                     );
                   
@@ -67,7 +66,7 @@ userRoute.route('/refresh/token').post((req,res,next)=>{
        const username = atob(test[0]);
        const userId = atob(test[1]);
         if (username && userId) {
-              const  token = jwt.sign({ username, userId }, JWT_SAMPLE_TOKEN, {
+              const  token = jwt.sign({ username: username, userId: userId }, JWT_SAMPLE_TOKEN, {
                   expiresIn: "30m",
                 })
                 res.json(token);

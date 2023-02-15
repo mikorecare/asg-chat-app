@@ -14,6 +14,7 @@ import { HomeComponent } from './pages/edit-profile/home/home.component';
 import { ProfileComponent } from './pages/edit-profile/profile/profile.component';
 import { ProfileUpdateComponent } from './pages/edit-profile/profile/profile-update/profile-update.component';
 import { ChatComponent } from './chat/chat.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,9 @@ import { ChatComponent } from './chat/chat.component';
     ReactiveFormsModule,
     AppRoutingModule,
   ],
-  providers: [],
+  providers: [
+    DatePipe
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

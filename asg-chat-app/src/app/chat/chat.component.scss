@@ -144,6 +144,10 @@ color: white;
     margin-left: 10px;
 }
 .last_message span{
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    margin-right:10px;
+    padding:5px;
     font-size: 15px;
     color: rgb(0, 0, 0);
     font-weight: bold;
@@ -163,8 +167,10 @@ cursor: pointer;
 margin-right: 20px;
 }
 .msg_cotainer{
+    overflow: hidden;
+overflow-wrap: break-word;
     font-size: 20px;
-display: inline-flex;
+display: block;
 margin-top: auto;
 margin-bottom: 20px;
 margin-left: 10px;
@@ -174,8 +180,10 @@ padding: 10px;
 position: relative;
 }
 .msg_cotainer_send{
+overflow: hidden;
+overflow-wrap: break-word;
 font-size: 20px;
-display: inline-flex;
+display: block;
 margin-top: auto;
 margin-bottom: auto;
 margin-right: 10px;
@@ -186,22 +194,21 @@ position: relative;
 }
 .msg_time_me{
 float: left;
-left: -20px;
-bottom: -25px;
-color: rgba(109, 107, 107, 0.5);
+left: 0;
+bottom: -15px;
+color: rgba(252, 252, 252);
 font-size: 11px;
 font-weight: 500;
-position: relative;
+position: absolute;
 }
 .msg_time_you{
-    float: right;
-    display: block;
-    left: -20px;
-    bottom: -25px;
-    color: rgba(255,255,255,0.5);
+    float:right;
+    right:0;
+    bottom: -15px;
+    color: rgba(252, 252, 252);
     font-size: 11px;
     font-weight: 500;
-    position: relative;
+    position: absolute;
     }
 
 .msg_time_send{
