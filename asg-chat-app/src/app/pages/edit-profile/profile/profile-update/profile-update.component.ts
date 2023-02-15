@@ -10,10 +10,12 @@ import { ProfileComponent } from '../profile.component';
   styleUrls: ['./profile-update.component.scss']
 })
 export class ProfileUpdateComponent {
+  isDeleting:any;
   changePassword = false;
   changeInfo = true;
   User:any = []
   userId = localStorage.getItem("userId");
+  formDelete:FormGroup
   form: FormGroup;
   constructor(
     private profile: ProfileComponent,
@@ -28,6 +30,14 @@ export class ProfileUpdateComponent {
       password: [''],
       confirmPassword:['']
     })
+    this.formDelete = this.formBuilder.group({
+      passwordDelete: [''],
+      confirmPasswordDelete: [''],
+    })
+  }
+
+  goto(value: string) {
+    this.router.navigate([`/${value}`]);
   }
 
   change(){
@@ -52,6 +62,12 @@ export class ProfileUpdateComponent {
   }
   get confirmPassword(){
     return this.form.get("confirmPassword");
+  }
+  get passwordDelete(){
+    return this.formDelete.get("passwordDelete");
+  }
+  get confirmPasswordDelete(){
+    return this.formDelete.get("confirmPasswordDelete");
   }
 
   save(){
@@ -84,6 +100,26 @@ export class ProfileUpdateComponent {
   }
 
   deleteAccount(){
-    
+    if(this.confirmPasswordDelete?.value != this.passwordDelete?.value){
+      alert("Passwords didn't match");
+    }
+    else{
+      this.crudService.deleteUser(this.userId,this.passwordDelete?.value).subscribe(
+        (data)=>{
+          if(data==null || data.msg==null){
+            alert("Password is incorrect!")
+          }
+          else{
+            console.log(data)
+            alert("Account has been deleted!")
+            localStorage.removeItem("userId");
+            localStorage.removeItem("username");
+            localStorage.removeItem("token");
+            this.goto("login");
+            
+          }
+        }
+      )
+    }
   }
 }

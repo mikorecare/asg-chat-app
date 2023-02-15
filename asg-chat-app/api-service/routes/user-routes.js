@@ -90,7 +90,7 @@ userRoute.route('/add-user').post(async(req, res, next) => {
       }
     }
     catch(err){
-      return next(err)
+       res.send(null)
     }
 });
 // getuser list
@@ -129,10 +129,12 @@ userRoute.route('/update-user/:id').put((req, res, next) => {
   })
 })
 // Delete user
-userRoute.route('/delete-user/:id').delete((req, res, next) => {
-    User.findByIdAndRemove(req.params.id, (error, data) => {
+userRoute.route('/delete-user/:id/:password').delete((req, res, next) => {
+    console.log("id",req.params.id)
+    console.log("password",req.params.password)
+    User.findOneAndRemove({"_id":mongoose.Types.ObjectId(req.params.id),"password":req.params.password}, (error, data) => {
     if (error) {
-      return next(error);
+      res.send(null);
     } else {
       res.status(200).json({
         msg: data

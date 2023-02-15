@@ -63,9 +63,22 @@ register(){
     alert("Passwords didn't match");
   }
   else{
-  alert("Registration succesful!");
-  this.crudservice.AddUser(this.form.value).subscribe();
-  this.goto();
+  
+  this.crudservice.AddUser(this.form.value).subscribe((data)=>{
+    if(data==null){
+      alert("Registration Failed! Username already exists!");
+      this.clearForm()
+    }
+    else{
+      alert("Registration succesful!");
+      this.goto();
+    }
+   
+  });
   }
+}
+
+clearForm(){
+  this.form.reset()
 }
 }

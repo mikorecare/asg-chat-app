@@ -99,7 +99,7 @@
                     <div class="card-body msg_card_body">
        
                         <div class="d-flex justify-content-start mb-4">
-                            <div class="msg_cotainer">
+                            <div class="msg_container">
                                 Howdy!? Find someone to chat to!
                             </div>
                         </div>
@@ -142,7 +142,7 @@
                 <div class="card-body msg_card_body">
                      <ng-container *ngFor="let message of chatData.messages">
                     <div [ngClass]="{'d-flex justify-content-start mb-4':message.sender!==userId,'d-flex justify-content-end mb-4':message.sender===userId}" >
-                                <p [ngClass]="{'msg_cotainer':message.sender!==userId,'msg_cotainer_send':message.sender===userId}">{{message.message}}
+                                <p [ngClass]="{'msg_container':message.sender!==userId,'msg_container_send':message.sender===userId}">{{message.message}}
                       
                                 <span [ngClass]="{'msg_time_me':message.sender!==userId,'msg_time_you':message.sender===userId}" 
                                 >{{toDate(message.timeStamp)}}</span>

@@ -38,6 +38,24 @@
                   
                 </form>
                   <button class="btn btn-outline-light btn-lg px-5" type="submit" (click)="update()">Update</button>
+                  <hr>
+                  <button class="btn btn-outline-light btn-lg px-5" type="submit" (click)="isDeleting = !isDeleting">Delete Account</button>
+                  <ng-container *ngIf="isDeleting">
+                    <form [formGroup]="formDelete"> 
+                      <p class="pull-left">Deleting your account will remove all of your information from our database. Enter your password and click "Confirm Deletion if you wish to proceed"</p>
+                      <div class="form-outline form-white mb-4">
+                        <input formControlName="passwordDelete"  placeholder="Password" type="password" id="passwordDelete" class="form-control form-control-lg" required/>
+                        <label class="form-label" for="passwordDelete">Password</label>
+                      </div>
+    
+                      <div class="form-outline form-white mb-4">
+                        <input formControlName="confirmPasswordDelete"  placeholder="Confirm Password" type="password" id="confirmPasswordDelete" class="form-control form-control-lg" required/>
+                        <label class="form-label" for="confirmPasswordDelete">Confrim Password</label>
+                      </div>
+
+                      <button class="btn btn-outline-light btn-lg px-5" type="submit" (click)="deleteAccount()">Confirm Deletion</button>
+                      </form>
+                  </ng-container>
                 </div>
 
               </div>

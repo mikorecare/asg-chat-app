@@ -58,8 +58,8 @@ export class CrudService {
       .pipe(catchError(this.handleError));
   }
   // Delete
-  deleteUser(id: any): Observable<any> {
-    let API_URL = `${this.REST_API}/delete-user/${id}`;
+  deleteUser(id: any,password:any): Observable<any> {
+    let API_URL = `${this.REST_API}/delete-user/${id}/${password}`;
     return this.httpClient
       .delete(API_URL, { headers: this.httpHeaders })
       .pipe(catchError(this.handleError));
