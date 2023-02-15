@@ -1,4 +1,5 @@
 const msg = require('./schemas/chat.ts')
+const user = require('./schemas/user.ts')
 const { default: mongoose } = require('mongoose');
 const express = require('express');
 const path = require('path');
@@ -93,4 +94,19 @@ socketIo.on('connection', (socket) =>{
     }
       
   });
+
+  socket.on("search-query", async (query)=>{
+    let finalQuery = '^'+query;
+    try{
+      var data = await user.find({firstName:{$regex : finalQuery, $options: 'i'}})
+      if(data){
+        await socketIo.sockets.emit("search-results",data)
+      }
+    }
+    catch(err){
+
+    }
+
+  })
+
 })

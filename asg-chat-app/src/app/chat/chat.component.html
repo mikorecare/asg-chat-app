@@ -2,27 +2,43 @@
     <div class="row justify-content-center h-100">
         <div class="col-md-4 col-xl-3 chat"><div class="card mb-sm-3 mb-md-0 contacts_card">
             <div class="card-header">
+                <form [formGroup]="searchForm" > 
                 <div class="input-group">
-                    <input type="text" placeholder="Search..." name="" class="form-control search">
+                    <input formControlName="search" type="text" placeholder="Search..." name="" class="form-control search" (focus)="isSearching = true" (focusout)="isSearching = false">
                     <div class="input-group-prepend">
                         <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
                     </div>
                 </div>
+                </form>
             </div>
-            <div class="card-body contacts_body">
-                <ul class="contacts">
-                    <li>
-                        <div class="d-flex bd-highlight">
-                            <div class="img_cont">
-                                <i  class="fa fa-plus user_img_icon user_img" ></i>
-                            </div>
-                            <div class="user_info">
-                                <span>Add a chat</span>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
 
+            <ng-container *ngIf="isSearching == true">
+                <div class="card-body contacts_body">
+                    <ul class="contacts" *ngFor="let users of userSearchResults">
+                        <ng-container *ngIf="userId != users._id">
+                        <li >
+                            <div class="d-flex bd-highlight">
+                                <div class="img_cont">
+                                    <img src="" class="rounded-circle user_img">
+                                    <span class="online_icon"></span>
+                                </div>
+                                <div class="user_info" >
+                                    
+                                        <span>{{users.firstName}} {{users.lastName}}</span><br>
+                            
+                                
+                                </div>  
+                            </div>
+                        </li>
+                    </ng-container>
+                    </ul>
+                  
+                </div>
+                <div class="card-footer"></div>
+            </ng-container>
+
+            <ng-container *ngIf="isSearching == false">
+            <div class="card-body contacts_body">
                 <ul class="contacts" *ngFor="let chats of chatsList; let i = index">
                     <li (click)="getChatRoom(chats._id)" >
                         <div class="d-flex bd-highlight">
@@ -51,7 +67,9 @@
               
             </div>
             <div class="card-footer"></div>
+        </ng-container>
         </div></div>
+  
 
         <ng-container *ngIf="isSelected == false">
             <div class="col-md-8 col-xl-6 chat">

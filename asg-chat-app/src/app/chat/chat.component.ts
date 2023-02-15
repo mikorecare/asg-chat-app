@@ -1,19 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { CrudService } from '../service/crud.service';
 import  {io} from "socket.io-client";
 import { Chat } from '../service/chat';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Socket } from 'socket.io';
 import { User } from '../service/user';
+import { debounceTime, distinctUntilChanged, filter, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewInit {
+  isSearching = false;
+  userSearchResults:any=[]
   socket = io("ws://localhost:8000", { transports: ["websocket"]} );
-  
+  searchForm: FormGroup;
   form: FormGroup;
   isSelected = false;
   numberOfMessages: number;
@@ -27,10 +30,11 @@ export class ChatComponent implements OnInit {
   constructor(private crudservice: CrudService, public formBuilder: FormBuilder,){
     this.socket = io("ws://localhost:8000", { transports: ["websocket"]} );
     this.form = this.formBuilder.group({
-      id: [''],
-      password: [''],
       message: ['']
   })
+  this.searchForm = this.formBuilder.group({
+    search: ['']
+})
   }
 
   ngOnInit(): void {
@@ -42,7 +46,37 @@ export class ChatComponent implements OnInit {
       let index = this.chatsList.findIndex((q:any)=>q._id == this.chatId)
       this.chatsList[index].messages.push({sender: sender,timeStamp:timeStamp,message: message})
     });
+    this.socket.on("search-results",(results:any)=>{
+      this.userSearchResults = results;
+    })
 
+  }
+
+  ngAfterViewInit():void{
+    this.searchString?.valueChanges.pipe(
+      filter(Boolean),
+      debounceTime(1500),
+      distinctUntilChanged(),
+      tap((event:KeyboardEvent) => {
+        if(this.searchString?.value.trim().length==0){
+          this.isSearching=false
+        }
+        else{
+          this.generateSocketQuery(this.searchString?.value.trim())
+          this.isSearching = true;
+        }
+        
+      })
+  )
+  .subscribe();
+  }
+
+  get searchString() {
+    return this.searchForm.get(['search']);
+  }
+
+  get formMessage() {
+    return this.form.get(['message']);
   }
 
   getUser(){
@@ -90,14 +124,15 @@ export class ChatComponent implements OnInit {
   }
 
    generateSocket(data?:any) {
-      this.socket.emit("send-message", data);
-      
+      this.socket.emit("send-message", data); 
+    }
+
+    generateSocketQuery(data?:any){
+      this.socket.emit("search-query",data);
     }
 
 
-  get formMessage() {
-    return this.form.get(['message']);
-  }
+
   clearSend(){
     this.form.get(['message'])?.setValue('')
   }
@@ -114,4 +149,13 @@ export class ChatComponent implements OnInit {
 
   }
 
+  checkSearch(){
+    const onlyWhiteSpace = (test:string) => test.trim().length === 0 
+    if(onlyWhiteSpace(this.formMessage?.value)){
+      this.isSearching = false;
+    }
+    else{
+      this.isSearching = true;
+    }
+  }
 }

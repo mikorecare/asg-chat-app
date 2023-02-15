@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
        localStorage.setItem("userId",data.user._id);
        localStorage.setItem("username",data.user.username);
        localStorage.setItem("token", data.token);
-       this.goto('edit-profile');
+       this.goto('home');
       }
     });
    
