@@ -108,6 +108,18 @@ socketIo.on('connection', (socket) =>{
     }
   });
 
+  socket.on("delete-chat-room", async(id)=>{
+    try{
+      let res = await msg.findByIdAndRemove(id)
+      if(res){
+        await socketIo.sockets.emit("delete-chat-results",res)
+      }
+    }
+    catch(err){
+      console.log(err)
+    }
+  })
+  
   socket.on("create-chat-room", async (users)=>{
     let [currentUser, otherUser] = users;
     try{

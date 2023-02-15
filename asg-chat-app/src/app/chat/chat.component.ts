@@ -66,6 +66,11 @@ export class ChatComponent implements OnInit, AfterViewInit {
       this.getChatRoom(results._id);
       this.scrollToEnd()
     })
+    this.socket.on("delete-chat-results",(results:any)=>{
+      this.isSelected = false;
+      this.chatsList.splice(this.chatsList.findIndex((q:any)=>q._id == this.chatId),1)
+
+    })
 
   }
 
@@ -117,6 +122,11 @@ export class ChatComponent implements OnInit, AfterViewInit {
     let finalUsers = [userId,otherUser]
     this.socket.emit("create-chat-room",finalUsers)
   }
+
+  geneRateSocketDeleteChatRoom(){
+    this.socket.emit("delete-chat-room",this.chatId)
+  }
+  //END_OF_SOCKETS
 
   getChatRoom(id:any){
     this.chatId = id; 
@@ -179,5 +189,13 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.isSearching = false;
     this.tempUserId = id;
     this.generateSocketChatRoom(this.userId,id)
+  }
+
+  deleteChatRoom(){
+    let boolDelete = confirm("Are you sure want to delete chat room?")
+    if(boolDelete == true){
+      this.geneRateSocketDeleteChatRoom()
+      alert("Chat has been deleted!")
+    }
   }
 }
