@@ -74,7 +74,7 @@ function start(){
 //SOCKET
 socketIo.on('connection', (socket) =>{
     
-  socket.once("send-message",async (message)=>{
+  socket.on("send-message",async (message)=>{
     try{ 
 
        var data=  await msg.findByIdAndUpdate(mongoose.Types.ObjectId(message._id),{
@@ -104,9 +104,60 @@ socketIo.on('connection', (socket) =>{
       }
     }
     catch(err){
+      console.log(err)
+    }
+  });
+
+  socket.on("create-chat-room", async (users)=>{
+    let [currentUser, otherUser] = users;
+    try{
+      let result = await msg.find({users: {$all:[mongoose.Types.ObjectId(currentUser),mongoose.Types.ObjectId(otherUser)]}
+      })
+      console.log(result)
+      if(result.length>0){
+        console.log("result",result)
+        await socketIo.sockets.emit("chat-room-exists",data)
+      }
+      else{
+        try{
+          let room = await msg.create({id: new mongoose.Types.ObjectId,users:[mongoose.Types.ObjectId(currentUser),mongoose.Types.ObjectId(otherUser)],messages:[]})
+          if(room){
+            let updatedRoom = await msg.aggregate([
+              { $match : {
+                 _id: mongoose.Types.ObjectId(room._id) 
+               } 
+             } ,
+             {
+              $lookup: 
+              {
+                 from: "users",
+                 localField: "users",
+                 foreignField: "_id",
+                 as: "chats_users"
+               }},
+               {
+                $project: {
+                  chats_users:1,
+                  messages: 1,
+                  _id: 1
+                }
+               }
+              ])
+              await socketIo.emit("chat-room-result",updatedRoom)
+              // await socketIo.emit("chat-room-result",updatedRoom);
+              // console.log("room created",updatedRoom)
+              // console.log("chat users",updatedRoom.chats_users)
+            }
+          }
+          catch(err){
+            console.log(err)
+          }
+      }
+    }
+    catch(err){
 
     }
-
+    
   })
 
 })

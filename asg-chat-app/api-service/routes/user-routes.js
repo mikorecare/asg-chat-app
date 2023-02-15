@@ -83,16 +83,16 @@ userRoute.route('/refresh/token').post((req,res,next)=>{
     }
 })
 // register
-userRoute.route('/add-user').post((req, res, next) => {
-    
-    User.create({...req.body,_id: new mongoose.Types.ObjectId()}, (error, data) => {
-    if (error) {
-      return next(error)
-    } else {
-      
-      res.json(data)
+userRoute.route('/add-user').post(async(req, res, next) => {
+    try{
+      let result = await User.create({...req.body,_id: new mongoose.Types.ObjectId()});
+      if(result){
+        res.json(result)
+      }
     }
-  })
+    catch(err){
+      return next(err)
+    }
 });
 // getuser list
 userRoute.route('/').get((req, res) => {

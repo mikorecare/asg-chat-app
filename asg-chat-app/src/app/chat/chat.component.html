@@ -4,7 +4,7 @@
             <div class="card-header">
                 <form [formGroup]="searchForm" > 
                 <div class="input-group">
-                    <input formControlName="search" type="text" placeholder="Search..." name="" class="form-control search" (focus)="isSearching = true" (focusout)="isSearching = false">
+                    <input formControlName="search" type="text" placeholder="Search..." name="" class="form-control search" (focus)="isSearching = true">
                     <div class="input-group-prepend">
                         <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
                     </div>
@@ -16,7 +16,7 @@
                 <div class="card-body contacts_body">
                     <ul class="contacts" *ngFor="let users of userSearchResults">
                         <ng-container *ngIf="userId != users._id">
-                        <li >
+                        <li (click)="createChatRoom(users._id)">
                             <div class="d-flex bd-highlight">
                                 <div class="img_cont">
                                     <img src="" class="rounded-circle user_img">
@@ -50,13 +50,13 @@
                                 <ng-container *ngIf="userId != user._id">
                                     <span>{{user.firstName}} {{user.lastName}}</span><br>
                                     <div class="last_message">
-                                        <span class="last_message">  {{chats.messages[chats.messages.length-1].message}}</span> 
+                                        <span class="last_message">  {{chats.messages.length>0?chats.messages[chats.messages.length-1].message:"no messages yet"}}</span> 
                                     </div>
                                 </ng-container>
                                 <ng-container *ngIf="chats.chats_users.length<2">
                                     <span > Deleted User </span><br>
                                     <div class="last_message">
-                                        <span class="last_message">  {{chats.messages[chats.messages.length-1].message}}</span> 
+                                        <span class="last_message">  {{chats.messages.length>0?chats.messages[chats.messages.length-1].message:"no messages yet"}}</span> 
                                     </div>
                                 </ng-container>
                                
@@ -144,10 +144,11 @@
                
                 <div class="card-body msg_card_body">
                      <ng-container *ngFor="let message of chatData.messages">
-                    <div [ngClass]="{'d-flex justify-content-start mb-4':message.sender!==userId,'d-flex justify-content-end mb-4':message.sender===userId}">
-                                <p>{{message.message}}
-                                <br>
-                                <span [ngClass]="{'msg_time_me':message.sender!==userId,'msg_time_you':message.sender===userId}" >{{message.timeStamp}}</span>
+                    <div [ngClass]="{'d-flex justify-content-start mb-4':message.sender!==userId,'d-flex justify-content-end mb-4':message.sender===userId}" >
+                                <p [ngClass]="{'msg_cotainer':message.sender!==userId,'msg_cotainer_send':message.sender===userId}">{{message.message}}
+                      
+                                <span [ngClass]="{'msg_time_me':message.sender!==userId,'msg_time_you':message.sender===userId}" 
+                                >{{message.timeStamp}}</span>
                             </p>    
                     </div>
                 </ng-container>

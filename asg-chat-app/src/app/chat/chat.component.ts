@@ -24,6 +24,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   chatYou: User 
   chatId: String;
   chatData: Chat
+  tempUserId =""
   userId = localStorage.getItem("userId");
   Users: any = []
   chatsList: any = [] 
@@ -49,6 +50,14 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.socket.on("search-results",(results:any)=>{
       this.userSearchResults = results;
     })
+    this.socket.on("chat-room-result",(results:any)=>{
+
+      this.chatsList.push(results[0]);
+      this.getChatRoom(results[0]._id);
+    })
+    this.socket.on("chat-room-exists",(results:Chat)=>{
+      this.getChatRoom(results._id);
+    })
 
   }
 
@@ -71,6 +80,15 @@ export class ChatComponent implements OnInit, AfterViewInit {
   .subscribe();
   }
 
+  //ngOnInit functions
+  getUser(){
+    // this.crudservice.GetChats().subscribe(data=>{console.log(data)});
+    this.crudservice.GetChatParticipants(this.userId).subscribe((data)=>{
+      data==null?this.chatsList:this.chatsList = data;
+    });
+  }
+
+  //ABSTRACT
   get searchString() {
     return this.searchForm.get(['search']);
   }
@@ -78,26 +96,22 @@ export class ChatComponent implements OnInit, AfterViewInit {
   get formMessage() {
     return this.form.get(['message']);
   }
-
-  getUser(){
-    // this.crudservice.GetChats().subscribe(data=>{console.log(data)});
-    this.crudservice.GetChatParticipants(this.userId).subscribe((data)=>{
-      data==null?this.chatsList:this.chatsList = data;
-    });
+  //SOCKETS
+  generateSocket(data?:any) {
+    this.socket.emit("send-message", data); 
   }
-  getName(data:Chat){
 
-    //  const name = myData.map((data:User)=>{
-    //     if(data._id != this.userId){
-    //       return data.firstName
-    //     }
-    //   })
+  generateSocketQuery(data?:any){
+    this.socket.emit("search-query",data);
+  }
+
+  generateSocketChatRoom(userId:any, otherUser:any){
+    let finalUsers = [userId,otherUser]
+    this.socket.emit("create-chat-room",finalUsers)
   }
 
   getChatRoom(id:any){
-    
     this.chatId = id; 
-
     this.crudservice.GetChatRoom(id).subscribe((data)=>{
       this.chatData = data[0];
       this.chatData.chats_users.map((res:any)=>{
@@ -106,13 +120,9 @@ export class ChatComponent implements OnInit, AfterViewInit {
           this.chatMe = res;
           console.log(this.chatMe)
         }
-
         else{
           this.chatYou = res
-  
         }
-       
-
       })
       if(this.chatData.chats_users.length < 2){
         this.chatYou = {firstName: "Deleted User"}
@@ -123,39 +133,26 @@ export class ChatComponent implements OnInit, AfterViewInit {
     })
   }
 
-   generateSocket(data?:any) {
-      this.socket.emit("send-message", data); 
-    }
-
-    generateSocketQuery(data?:any){
-      this.socket.emit("search-query",data);
-    }
-
-
-
   clearSend(){
     this.form.get(['message'])?.setValue('')
   }
+
   send(){
     const onlyWhiteSpace = (test:string) => test.trim().length === 0 
     if(onlyWhiteSpace(this.formMessage?.value)){
       alert("Cannot send empty messages!")
     }
     else{
-          let finalMessage = {_id:this.chatId ,messages:{sender: this.userId,timeStamp: new Date,message: this.formMessage?.value}}
-    this.generateSocket(finalMessage);
-    this.clearSend()
+      let finalMessage = {_id:this.chatId ,messages:{sender: this.userId,timeStamp: new Date,message: this.formMessage?.value}}
+      this.generateSocket(finalMessage);
+      this.clearSend()
     }
 
   }
 
-  checkSearch(){
-    const onlyWhiteSpace = (test:string) => test.trim().length === 0 
-    if(onlyWhiteSpace(this.formMessage?.value)){
-      this.isSearching = false;
-    }
-    else{
-      this.isSearching = true;
-    }
+  createChatRoom(id:any){
+    this.isSearching = false;
+    this.tempUserId = id;
+    this.generateSocketChatRoom(this.userId,id)
   }
 }
