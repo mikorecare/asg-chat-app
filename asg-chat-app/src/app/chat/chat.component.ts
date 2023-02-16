@@ -111,6 +111,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
       if(this.chatId==currentRoomId){
         this.chatData.messages.push({sender: sender,timeStamp:timeStamp,message: message})
+        this.numberOfMessages +=1;
       }
       let index = this.chatsList.findIndex((q:any)=>q._id == currentRoomId)
       if(index!=-1){
