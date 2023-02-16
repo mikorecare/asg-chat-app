@@ -22,6 +22,5 @@ To test the chat, kindly login using incognito/private browsing and access the s
 
 **#Upcoming**:
 Replacement of Alert Prompts to Sweet Alerts
-Deleting Chat messages
 Uploading Avatars
 Checked online
