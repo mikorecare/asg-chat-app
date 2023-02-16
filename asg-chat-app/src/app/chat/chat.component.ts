@@ -123,9 +123,10 @@ export class ChatComponent implements OnInit, AfterViewInit {
       this.userSearchResults = results;
     })
     this.socket.on("chat-room-result",(results:any)=>{
-      // console.log(results[0]._id)
-      // results[0].users = Object.values(results[0].users)
-      if(results[0].chats_users.findIndex((q:any)=>q._id == this.userId)){
+      console.log(results[0]._id)
+      let index = results[0].chats_users.findIndex((q:any)=>q._id == this.userId)
+     
+      if(index!=-1){
         this.chatsList.push(results[0]);
         this.getChatRoom(results[0]._id);
         this.scrollToEnd()
