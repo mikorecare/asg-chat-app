@@ -137,7 +137,12 @@ export class ChatComponent implements OnInit, AfterViewInit {
     })
     this.socket.on("delete-chat-results",(results:any)=>{
       this.isSelected = false;
-      this.chatsList.splice(this.chatsList.findIndex((q:any)=>q._id == this.chatId),1)
+      let index = this.chatsList.findIndex((q:any)=>q._id == results._id)
+      if(index!=-1){
+        console.log("exists!")
+        this.chatsList.splice(index,1)
+      }
+      
     })
   }
   //END_OF_SOCKETS

@@ -46,6 +46,7 @@ const socketIo = require('socket.io')(server)
           try{
             let res = await msg.findByIdAndRemove(id)
             if(res){
+                console.log(res)
               await socketIo.sockets.emit("delete-chat-results",res)
             }
           }
