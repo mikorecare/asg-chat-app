@@ -21,6 +21,6 @@ front-end will run on localhost:4200 while back-end will run on localhost:8000
 To test the chat, kindly login using incognito/private browsing and access the same localhost:4200 as it uses a token for login
 
 **#Upcoming**:
-Replacement of Alert Prompts to Sweet Alerts
-Uploading Avatars
+Replacement of Alert Prompts to Sweet Alerts,
+Uploading Avatars,
 Checked online
