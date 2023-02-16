@@ -130,8 +130,7 @@ userRoute.route('/update-user/:id').put((req, res, next) => {
 })
 // Delete user
 userRoute.route('/delete-user/:id/:password').delete((req, res, next) => {
-    console.log("id",req.params.id)
-    console.log("password",req.params.password)
+
     User.findOneAndRemove({"_id":mongoose.Types.ObjectId(req.params.id),"password":req.params.password}, (error, data) => {
     if (error) {
       res.send(null);

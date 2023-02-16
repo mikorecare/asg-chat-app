@@ -11,7 +11,6 @@ const http = require('http');
 const userRoute = require('././routes/user-routes');
 const chatRoute = require('././routes/chat-routes');
 const app = express();
-
 server = http.Server(app)
 const socketIo = require('socket.io')(server)
 socketIo.removeAllListeners()

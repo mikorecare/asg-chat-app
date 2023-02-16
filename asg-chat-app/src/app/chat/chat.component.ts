@@ -57,10 +57,13 @@ export class ChatComponent implements OnInit, AfterViewInit {
       this.userSearchResults = results;
     })
     this.socket.on("chat-room-result",(results:any)=>{
-
-      this.chatsList.push(results[0]);
-      this.getChatRoom(results[0]._id);
-      this.scrollToEnd()
+      // console.log(results[0]._id)
+      // results[0].users = Object.values(results[0].users)
+      if(results[0].chats_users.findIndex((q:any)=>q._id == this.userId)!=-1){
+        this.chatsList.push(results[0]);
+        this.getChatRoom(results[0]._id);
+        this.scrollToEnd()
+      }
     })
     this.socket.on("chat-room-exists",(results:Chat)=>{
       this.getChatRoom(results._id);
@@ -69,7 +72,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.socket.on("delete-chat-results",(results:any)=>{
       this.isSelected = false;
       this.chatsList.splice(this.chatsList.findIndex((q:any)=>q._id == this.chatId),1)
-      alert("Chat has been deleted!")
     })
 
   }
