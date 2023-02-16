@@ -46,33 +46,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.getUser();
-    this.socket.on("back-to-chatroom", (received:Chat) =>{
-      let {sender, timeStamp, message} = received
-      console.log(sender, timeStamp, message)
-      this.chatData.messages.push({sender: sender,timeStamp:timeStamp,message: message})
-      let index = this.chatsList.findIndex((q:any)=>q._id == this.chatId)
-      this.chatsList[index].messages.push({sender: sender,timeStamp:timeStamp,message: message})
-    });
-    this.socket.on("search-results",(results:any)=>{
-      this.userSearchResults = results;
-    })
-    this.socket.on("chat-room-result",(results:any)=>{
-      // console.log(results[0]._id)
-      // results[0].users = Object.values(results[0].users)
-      if(results[0].chats_users.findIndex((q:any)=>q._id == this.userId)!=-1){
-        this.chatsList.push(results[0]);
-        this.getChatRoom(results[0]._id);
-        this.scrollToEnd()
-      }
-    })
-    this.socket.on("chat-room-exists",(results:Chat)=>{
-      this.getChatRoom(results._id);
-      this.scrollToEnd()
-    })
-    this.socket.on("delete-chat-results",(results:any)=>{
-      this.isSelected = false;
-      this.chatsList.splice(this.chatsList.findIndex((q:any)=>q._id == this.chatId),1)
-    })
+    this.generateSocketListeners()
+   
 
   }
 
@@ -127,6 +102,42 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   geneRateSocketDeleteChatRoom(){
     this.socket.emit("delete-chat-room",this.chatId)
+  }
+
+  generateSocketListeners(){
+    this.socket.on("back-to-chatroom", (received:any) =>{
+      let currentRoomId = received[0]
+      let {sender, timeStamp, message} = received[1]
+
+      if(this.chatId==currentRoomId){
+        this.chatData.messages.push({sender: sender,timeStamp:timeStamp,message: message})
+      }
+      let index = this.chatsList.findIndex((q:any)=>q._id == currentRoomId)
+      if(index!=-1){
+        this.chatsList[index].messages.push({sender: sender,timeStamp:timeStamp,message: message})
+      }
+      
+    });
+    this.socket.on("search-results",(results:any)=>{
+      this.userSearchResults = results;
+    })
+    this.socket.on("chat-room-result",(results:any)=>{
+      // console.log(results[0]._id)
+      // results[0].users = Object.values(results[0].users)
+      if(results[0].chats_users.findIndex((q:any)=>q._id == this.userId)){
+        this.chatsList.push(results[0]);
+        this.getChatRoom(results[0]._id);
+        this.scrollToEnd()
+      }
+    })
+    this.socket.on("chat-room-exists",(results:Chat)=>{
+      this.getChatRoom(results._id);
+      this.scrollToEnd()
+    })
+    this.socket.on("delete-chat-results",(results:any)=>{
+      this.isSelected = false;
+      this.chatsList.splice(this.chatsList.findIndex((q:any)=>q._id == this.chatId),1)
+    })
   }
   //END_OF_SOCKETS
 
